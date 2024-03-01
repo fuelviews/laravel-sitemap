@@ -1,0 +1,85 @@
+{
+    "name": "fuelviews/laravel-sitemap",
+    "description": "Fuelviews laravel sitemap package",
+    "keywords": [
+        "fuelviews",
+        "laravel",
+        "laravel-sitemap",
+        "sitemap",
+        "php",
+        "xml",
+        "seo"
+    ],
+    "homepage": "https://github.com/fuelviews/laravel-sitemap",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "thejmitchener",
+            "email": "support@fuelviews.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^10.0",
+        "laravel/prompts": "^0.1.16",
+        "spatie/laravel-package-tools": "^1.14.0",
+        "spatie/laravel-sitemap": "^7.2"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^7.8",
+        "orchestra/testbench": "^8.8",
+        "pestphp/pest": "^2.20",
+        "pestphp/pest-plugin-arch": "^2.5",
+        "pestphp/pest-plugin-laravel": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fuelviews\\Sitemap\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fuelviews\\Sitemap\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-sitemap --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": [
+            "@composer run prepare",
+            "@php vendor/bin/testbench workbench:build --ansi"
+        ],
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@composer run build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fuelviews\\Sitemap\\SitemapServiceProvider"
+            ],
+            "aliases": {
+                "Sitemap": "Fuelviews\\Sitemap\\Facades\\Sitemap"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
