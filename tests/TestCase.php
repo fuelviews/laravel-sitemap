@@ -2,9 +2,9 @@
 
 namespace Fuelviews\Sitemap\Tests;
 
+use Fuelviews\Sitemap\SitemapServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Fuelviews\Sitemap\SitemapServiceProvider;
 
 class TestCase extends Orchestra
 {

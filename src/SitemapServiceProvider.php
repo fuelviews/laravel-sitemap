@@ -2,9 +2,9 @@
 
 namespace Fuelviews\Sitemap;
 
+use Fuelviews\Sitemap\Commands\SitemapCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Fuelviews\Sitemap\Commands\SitemapCommand;
 
 class SitemapServiceProvider extends PackageServiceProvider
 {
