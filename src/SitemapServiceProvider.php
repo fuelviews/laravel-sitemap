@@ -17,7 +17,7 @@ class SitemapServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-sitemap')
-            ->hasConfigFile()
+            ->hasConfigFile('fv-sitemap')
             ->hasViews()
             ->hasMigration('create_laravel-sitemap_table')
             ->hasCommand(SitemapCommand::class);
