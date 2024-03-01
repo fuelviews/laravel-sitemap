@@ -43,6 +43,6 @@ return [
     'exclude_urls' => [
         '/sitemap.xml',
         '/pages_sitemap.xml',
-        '/posts_sitemap.xml'
+        '/posts_sitemap.xml',
     ],
 ];

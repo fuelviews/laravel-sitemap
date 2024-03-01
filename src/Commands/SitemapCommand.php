@@ -5,14 +5,14 @@ namespace Fuelviews\Sitemap\Commands;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Spatie\Sitemap\SitemapGenerator;
-use Spatie\Sitemap\Tags\Url;
-use Spatie\Crawler\Crawler;
-use Spatie\Sitemap\SitemapIndex;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-Use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Crawler\Crawler;
+use Spatie\Sitemap\SitemapGenerator;
+use Spatie\Sitemap\SitemapIndex;
+use Spatie\Sitemap\Tags\Url;
 
 class SitemapCommand extends Command
 {
@@ -44,7 +44,7 @@ class SitemapCommand extends Command
      */
     public function handle()
     {
-        $SitemapIndex = !Config::get('fv-sitemap.exclude_index');
+        $SitemapIndex = ! Config::get('fv-sitemap.exclude_index');
 
         if ($SitemapIndex) {
             $this->generatePagesSitemap();
@@ -69,7 +69,7 @@ class SitemapCommand extends Command
      * It filters out URLs based on various criteria, including predefined excluded routes, paths,
      * and specific URLs. The resulting sitemap is then saved to a specified filename.
      *
-     * @param string $filename The filename for the generated sitemap, defaulting to 'pages_sitemap.xml'.
+     * @param  string  $filename  The filename for the generated sitemap, defaulting to 'pages_sitemap.xml'.
      */
     protected function generatePagesSitemap($filename = 'pages_sitemap.xml')
     {
@@ -100,7 +100,7 @@ class SitemapCommand extends Command
                 $normalizedUrl = rtrim($url->url, '/');
                 if ($normalizedUrl !== $baseUrlWithoutSlash) {
                     $url->setUrl($normalizedUrl);
-                } else if ($url->url === $baseUrlWithoutSlash . '/') {
+                } elseif ($url->url === $baseUrlWithoutSlash.'/') {
                     return null;
                 }
 
@@ -135,14 +135,14 @@ class SitemapCommand extends Command
     /**
      * Check if a given URL is a redirect.
      *
-     * @param string $url
+     * @param  string  $url
      * @return bool
      */
     protected function isRedirect($url)
     {
         $excludeRedirects = Config::get('fv-sitemap.exclude_redirects');
 
-        if (!$excludeRedirects) {
+        if (! $excludeRedirects) {
             return false;
         }
 
@@ -150,9 +150,11 @@ class SitemapCommand extends Command
         try {
             $response = $client->request('HEAD', $url, ['allow_redirects' => false]);
             $statusCode = $response->getStatusCode();
+
             return in_array($statusCode, [301, 302, 307, 308]);
         } catch (GuzzleException $e) {
-            Log::error('Error checking URL: ' . $e->getMessage());
+            Log::error('Error checking URL: '.$e->getMessage());
+
             return false;
         }
     }
@@ -209,17 +211,18 @@ class SitemapCommand extends Command
     /**
      * Determine if a path matches any of the excluded patterns.
      *
-     * @param string $path
-     * @param array $excludedPatterns
+     * @param  string  $path
+     * @param  array  $excludedPatterns
      * @return bool
      */
     protected function isPathExcluded($path, $excludedPatterns)
     {
         foreach ($excludedPatterns as $pattern) {
-            if (preg_match("#^" . preg_quote($pattern, '#') . "#", $path)) {
+            if (preg_match('#^'.preg_quote($pattern, '#').'#', $path)) {
                 return true;
             }
         }
+
         return false;
     }
 }
