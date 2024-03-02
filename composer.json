@@ -1,10 +1,11 @@
 {
     "name": "fuelviews/laravel-sitemap",
-    "description": "Fuelviews Laravel sitemap package",
+    "description": "Fuelviews laravel sitemap package",
     "keywords": [
         "Fuelviews",
         "laravel",
-        "laravel-sitemap"
+        "laravel-sitemap",
+        "'"sitemap"
     ],
     "homepage": "https://github.com/fuelviews/laravel-sitemap",
     "license": "MIT",

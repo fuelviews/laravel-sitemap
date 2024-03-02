@@ -23,12 +23,22 @@ class SitemapServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-sitemap')
-            ->hasConfigFile('fv-sitemap')
+            ->hasConfigFile()
             ->publishesServiceProvider('SitemapServiceProvider')
             ->hasCommands([
                 SitemapGenerateCommand::class,
                 InstallCommand::class,
             ]);
+    }
+
+    /**
+     * TODO
+     */
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__.'/../config/sitemap.php' => config_path('fv-sitemap.php'),
+        ], 'laravel-sitemap-config');
     }
 
     /**
