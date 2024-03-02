@@ -2,17 +2,20 @@
     "name": "fuelviews/laravel-sitemap",
     "description": "Fuelviews laravel sitemap package",
     "keywords": [
-        "Fuelviews",
+        "fuelviews",
         "laravel",
         "laravel-sitemap",
-        "sitemap"
+        "sitemap",
+        "php",
+        "xml",
+        "seo"
     ],
     "homepage": "https://github.com/fuelviews/laravel-sitemap",
     "license": "MIT",
     "authors": [
         {
             "name": "thejmitchener",
-            "email": "joshua@fuelviews.com",
+            "email": "support@fuelviews.com",
             "role": "Developer"
         }
     ],
