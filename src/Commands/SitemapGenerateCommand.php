@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Spatie\Crawler\Crawler;
+use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapGenerator;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
-use Spatie\Sitemap\Contracts\Sitemapable;
 
 class SitemapGenerateCommand extends Command
 {
@@ -143,11 +143,11 @@ class SitemapGenerateCommand extends Command
 
         $postModelClasses = Config::get('sitemap.post_model', []);
 
-        if (!class_exists($postModelClass)) {
+        if (! class_exists($postModelClass)) {
             throw new \Exception("Configured model class '{$postModelClass}' does not exist.");
         }
 
-        if (!in_array(Sitemapable::class, class_implements($postModelClass))) {
+        if (! in_array(Sitemapable::class, class_implements($postModelClass))) {
             throw new \Exception("Configured model class '{$postModelClass}' does not implement the Sitemapable interface.");
         }
 

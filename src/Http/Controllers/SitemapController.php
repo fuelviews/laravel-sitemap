@@ -17,7 +17,6 @@ class SitemapController extends BaseController
      * If the file exists, it returns the file's contents with an HTTP 200 response, setting the 'Content-Type' to 'application/xml'.
      * If the file is not found, it aborts the process with a 404 error, indicating the requested sitemap does not exist.
      */
-
     public function index($filename)
     {
         $disk = Config::get('fv-sitemap.disk', 'public');

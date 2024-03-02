@@ -15,7 +15,6 @@ class InstallCommand extends Command
      * This property defines the command that should be used to trigger the install process from the console.
      * It is a unique identifier for the command within the application's namespace, allowing it to be called via the Artisan command-line tool.
      */
-
     public $signature = 'sitemap:install';
 
     /**

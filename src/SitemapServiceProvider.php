@@ -18,7 +18,6 @@ class SitemapServiceProvider extends PackageServiceProvider
      * It also registers console commands provided by the package, enhancing the Artisan CLI with sitemap generation and installation capabilities.
      * This setup facilitates the integration of the sitemap functionality into a Laravel application, making it configurable and extendable.
      */
-
     public function configurePackage(Package $package): void
     {
         $package
