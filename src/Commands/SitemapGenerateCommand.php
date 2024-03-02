@@ -6,15 +6,15 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Crawler\Crawler;
+Use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Spatie\Sitemap\SitemapGenerator;
-use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
+use Spatie\Crawler\Crawler;
+use Spatie\Sitemap\SitemapIndex;
 
-class SitemapCommand extends Command
+class SitemapGenerateCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -31,7 +31,12 @@ class SitemapCommand extends Command
      * when listed in the console. It's shown when you run `php artisan list`
      * or when you specifically view help for this command.
      */
-    protected $description = 'Generate sitemap';
+    protected $description = 'Sitemap Generation';
+
+    /**
+     * TODO
+     */
+    protected $diskName;
 
     /**
      * Execute the console command.
@@ -44,22 +49,32 @@ class SitemapCommand extends Command
      */
     public function handle()
     {
-        $SitemapIndex = ! Config::get('fv-sitemap.exclude_index');
+        $this->diskName = Config::get('fv-sitemap.disk', 'public');
 
-        if ($SitemapIndex) {
-            $this->generatePagesSitemap();
-            $this->generatePostsSitemap();
+        try {
+            $SitemapIndex = !Config::get('fv-sitemap.exclude_index');
 
-            $sitemapIndex = SitemapIndex::create()
-                ->add('/pages_sitemap.xml')
-                ->add('/posts_sitemap.xml');
+            if ($SitemapIndex) {
+                $this->generatePagesSitemap();
+                $this->generatePostsSitemap();
 
-            $sitemapIndex->writeToFile(public_path('sitemap.xml'));
-        } else {
-            $this->generatePagesSitemap('sitemap.xml');
+                $sitemapIndex = SitemapIndex::create()
+                    ->add('/sitemap/pages_sitemap.xml')
+                    ->add('/sitemap/posts_sitemap.xml');
+
+                $sitemapIndex->writeToDisk($this->diskName, '/sitemap/sitemap.xml', true);
+            } else {
+                $this->generatePagesSitemap('/sitemap/sitemap.xml');
+            }
+
+            $this->info('Sitemap generated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Sitemap generation failed: ' . $e->getMessage());
+
+            $this->error('Sitemap generation failed: ' . $e->getMessage());
+
+            return 1;
         }
-
-        $this->info('Sitemap generated successfully.');
     }
 
     /**
@@ -69,14 +84,13 @@ class SitemapCommand extends Command
      * It filters out URLs based on various criteria, including predefined excluded routes, paths,
      * and specific URLs. The resulting sitemap is then saved to a specified filename.
      *
-     * @param  string  $filename  The filename for the generated sitemap, defaulting to 'pages_sitemap.xml'.
+     * @param string $filename The filename for the generated sitemap, defaulting to 'pages_sitemap.xml'.
      */
     protected function generatePagesSitemap($filename = 'pages_sitemap.xml')
     {
-        $diskName = Config::get('fv-sitemap.disk');
-        $tempFilePath = tempnam(sys_get_temp_dir(), 'sitemap');
-
-        $excludedRouteNameUrls = $this->mapExcludedRoutesToUrls();
+        $filename = 'sitemap/' . $filename;
+        
+        $excludedRouteNameUrls = $this->mapExcludedRouteNamesToUrls();
         $excludedPaths = $this->getExcludedPaths();
         $excludedUrls = $this->getExcludedUrls();
 
@@ -100,23 +114,12 @@ class SitemapCommand extends Command
                 $normalizedUrl = rtrim($url->url, '/');
                 if ($normalizedUrl !== $baseUrlWithoutSlash) {
                     $url->setUrl($normalizedUrl);
-                } elseif ($url->url === $baseUrlWithoutSlash.'/') {
+                } else if ($url->url === $baseUrlWithoutSlash . '/') {
                     return null;
                 }
 
                 return $url;
-            })->getSitemap()->writeToFile($tempFilePath);
-
-        $sitemapContent = file_get_contents($tempFilePath);
-
-        if ($diskName !== 'public_path') {
-            Storage::disk($diskName)->put($filename, $sitemapContent);
-        } else {
-            file_put_contents(public_path($filename), $sitemapContent);
-        }
-
-        // Remove the temporary file after use
-        @unlink($tempFilePath);
+            })->getSitemap()->writeToDisk($this->diskName, $filename, true);
     }
 
     /**
@@ -133,16 +136,33 @@ class SitemapCommand extends Command
     }
 
     /**
+     * Determine if a path matches any of the excluded patterns.
+     *
+     * @param string $path
+     * @param array $excludedPatterns
+     * @return bool
+     */
+    protected function isPathExcluded($path, $excludedPatterns)
+    {
+        foreach ($excludedPatterns as $pattern) {
+            if (preg_match("#^" . preg_quote($pattern, '#') . "#", $path)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Check if a given URL is a redirect.
      *
-     * @param  string  $url
+     * @param string $url
      * @return bool
      */
     protected function isRedirect($url)
     {
         $excludeRedirects = Config::get('fv-sitemap.exclude_redirects');
 
-        if (! $excludeRedirects) {
+        if (!$excludeRedirects) {
             return false;
         }
 
@@ -150,13 +170,29 @@ class SitemapCommand extends Command
         try {
             $response = $client->request('HEAD', $url, ['allow_redirects' => false]);
             $statusCode = $response->getStatusCode();
-
             return in_array($statusCode, [301, 302, 307, 308]);
         } catch (GuzzleException $e) {
-            Log::error('Error checking URL: '.$e->getMessage());
-
+            Log::error('Error checking URL: ' . $e->getMessage());
             return false;
         }
+    }
+
+    /**
+     * Map excluded route names to their URLs, excluding any that are invalid.
+     *
+     * @return array
+     */
+    protected function mapExcludedRouteNamesToUrls()
+    {
+        $excludedRouteNames = $this->getExcludedRouteNames();
+
+        return collect($excludedRouteNames)->map(function ($routeName) {
+            try {
+                return route($routeName, [], false);
+            } catch (\InvalidArgumentException $e) {
+                return null;
+            }
+        })->filter()->values()->all();
     }
 
     /**
@@ -166,7 +202,7 @@ class SitemapCommand extends Command
      */
     protected function getExcludedRouteNames()
     {
-        return Config::get('fv-sitemap.sitemap_exclude_route_names', []);
+        return Config::get('fv-sitemap.exclude_route_names', []);
 
     }
 
@@ -188,41 +224,5 @@ class SitemapCommand extends Command
     protected function getExcludedUrls()
     {
         return Config::get('fv-sitemap.exclude_urls', []);
-    }
-
-    /**
-     * Map excluded route names to their URLs, excluding any that are invalid.
-     *
-     * @return array
-     */
-    protected function mapExcludedRoutesToUrls()
-    {
-        $excludedRouteNames = $this->getExcludedRouteNames();
-
-        return collect($excludedRouteNames)->map(function ($routeName) {
-            try {
-                return route($routeName, [], false);
-            } catch (\InvalidArgumentException $e) {
-                return null;
-            }
-        })->filter()->values()->all();
-    }
-
-    /**
-     * Determine if a path matches any of the excluded patterns.
-     *
-     * @param  string  $path
-     * @param  array  $excludedPatterns
-     * @return bool
-     */
-    protected function isPathExcluded($path, $excludedPatterns)
-    {
-        foreach ($excludedPatterns as $pattern) {
-            if (preg_match('#^'.preg_quote($pattern, '#').'#', $path)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

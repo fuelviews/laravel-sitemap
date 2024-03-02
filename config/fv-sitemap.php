@@ -3,10 +3,10 @@
 return [
     /**
      * Specifies the default filesystem disk that should be used.
-     * The 'public' disk is typically used for files that need to be publicly accessible to users.
+     * The 'public_path' disk is typically used for files that need to be publicly accessible to users.
      * This setting can influence where files, such as generated sitemaps, are stored by default.
      */
-    'disk' => 'public_path',
+    'disk' => 'public',
 
     /**
      * Determines whether the index page should be excluded from the sitemap.
@@ -24,8 +24,7 @@ return [
      * An array of route names to be excluded from the sitemap.
      * Useful for excluding specific pages that should not be discoverable via search engines.
      */
-    'sitemap_exclude_route_names' => [
-        'welcome2',
+    'exclude_route_names' => [
     ],
 
     /**
@@ -33,7 +32,6 @@ return [
      * Any routes starting with these paths will not be included in the sitemap, enhancing control over the sitemap contents.
      */
     'exclude_paths' => [
-        '/posts/',
     ],
 
     /**
