@@ -50,7 +50,6 @@ return [
      * The specified model should implement any necessary logic to retrieve only the posts that should be visible to search engines.
      */
     'post_model' => [
-        App\Models\Post::class,
+        //App\Models\Post::class,
     ],
-
 ];
