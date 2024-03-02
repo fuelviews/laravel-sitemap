@@ -33,8 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Fuelviews\\Sitemap\\": "src/",
-            "Fuelviews\\Sitemap\\Database\\Factories\\": "database/factories/"
+            "Fuelviews\\Sitemap\\": "src/"
         }
     },
     "autoload-dev": {
