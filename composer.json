@@ -5,7 +5,7 @@
         "Fuelviews",
         "laravel",
         "laravel-sitemap",
-        "'"sitemap"
+        "sitemap"
     ],
     "homepage": "https://github.com/fuelviews/laravel-sitemap",
     "license": "MIT",
