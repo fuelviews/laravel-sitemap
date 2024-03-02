@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Spatie\Crawler\Crawler;
+use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapGenerator;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
+use Spatie\Sitemap\Contracts\Sitemapable;
 
 class SitemapGenerateCommand extends Command
 {
@@ -33,7 +35,10 @@ class SitemapGenerateCommand extends Command
     protected $description = 'Sitemap Generation';
 
     /**
-     * TODO
+     * The name of the filesystem disk where sitemap files are stored.
+     *
+     * This property is used to specify the storage disk that should be utilized for retrieving sitemap files.
+     * It can be set to any of the disk names configured in the filesystems configuration file, allowing for flexible storage options.
      */
     protected $diskName;
 
@@ -63,7 +68,7 @@ class SitemapGenerateCommand extends Command
 
                 $sitemapIndex->writeToDisk($this->diskName, '/sitemap/sitemap.xml', true);
             } else {
-                $this->generatePagesSitemap('/sitemap/sitemap.xml');
+                $this->generatePagesSitemap('sitemap.xml');
             }
 
             $this->info('Sitemap generated successfully.');
@@ -118,7 +123,8 @@ class SitemapGenerateCommand extends Command
                 }
 
                 return $url;
-            })->getSitemap()->writeToDisk($this->diskName, $filename, true);
+            })->getSitemap()
+            ->writeToDisk($this->diskName, $filename, true);
     }
 
     /**
@@ -129,9 +135,29 @@ class SitemapGenerateCommand extends Command
      * requirements of the posts being included. The generated sitemap could exclude certain posts
      * based on criteria like publication status, visibility settings, or other custom logic.
      */
-    protected function generatePostsSitemap()
+    protected function generatePostsSitemap($filename = 'posts_sitemap.xml')
     {
-        //
+        $filename = 'sitemap/'.$filename;
+
+        $sitemap = Sitemap::create();
+
+        $postModelClasses = Config::get('sitemap.post_model', []);
+
+        if (!class_exists($postModelClass)) {
+            throw new \Exception("Configured model class '{$postModelClass}' does not exist.");
+        }
+
+        if (!in_array(Sitemapable::class, class_implements($postModelClass))) {
+            throw new \Exception("Configured model class '{$postModelClass}' does not implement the Sitemapable interface.");
+        }
+
+        $posts = $postModelClass::where('status', 'published')->get();
+
+        foreach ($posts as $post) {
+            $sitemap->add($post->toSitemapUrl());
+        }
+
+        $sitemap->writeToDisk($this->diskName, $filename, true);
     }
 
     /**

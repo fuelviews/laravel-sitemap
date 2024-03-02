@@ -9,18 +9,28 @@ use function Laravel\Prompts\select;
 
 class InstallCommand extends Command
 {
-    /*
-    * TODO
-    */
+    /**
+     * The signature of the install command.
+     *
+     * This property defines the command that should be used to trigger the install process from the console.
+     * It is a unique identifier for the command within the application's namespace, allowing it to be called via the Artisan command-line tool.
+     */
+
     public $signature = 'sitemap:install';
 
-    /*
-    * TODO
-    */
+    /**
+     * A brief description of what the install command does.
+     *
+     * This property provides a short explanation of the command's purpose and functionality. It helps users understand what the command will do when executed.
+     */
     public $description = 'Sitemap install command';
 
-    /*
-     * TODO
+    /**
+     * Handles the execution of the sitemap installation command.
+     *
+     * This method prompts the user for input to configure the sitemap generation and publishing settings.
+     * It offers options to publish the configuration file, set the frequency of sitemap generation, and optionally open the GitHub repository page.
+     * Utilizes Laravel's command-line UI prompts to facilitate user interaction and customization of the sitemap installation process.
      */
     public function handle(): int
     {
@@ -50,9 +60,13 @@ class InstallCommand extends Command
         return self::SUCCESS;
     }
 
-    /*
-    * TODO
-    */
+    /**
+     * Inserts the sitemap generation command into the application's console kernel.
+     *
+     * This method adds a scheduled task to the application's console kernel based on the user's specified frequency for sitemap generation.
+     * It modifies the Kernel.php file programmatically, ensuring that the sitemap generation command is executed as part of the application's command schedule.
+     * If the 'never' option is selected, no action is taken.
+     */
     protected function insertSitemapGenerationCommand($frequency)
     {
         if ($frequency === 'never') {
@@ -92,9 +106,13 @@ class InstallCommand extends Command
         }
     }
 
-    /*
-    * TODO
-    */
+    /**
+     * Opens the provided URL in the user's default web browser.
+     *
+     * This method detects the operating system and uses the appropriate command to open a web browser to the specified URL.
+     * It supports Windows, Linux, and macOS, providing a convenient way for users to access the GitHub repository page of the sitemap package.
+     * If the operating system is not supported, it displays the URL and prompts the user to visit it manually.
+     */
     protected function openInBrowser($url)
     {
         switch (PHP_OS_FAMILY) {

@@ -76,6 +76,31 @@ return [
 ];
 ```
 
+You can also add your models directly by implementing the \Spatie\Sitemap\Contracts\Sitemapable interface.
+```php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Contracts\Sitemapable;
+use Spatie\Sitemap\Tags\Url;
+
+class Post extends Model implements Sitemapable {
+    /**
+     * Convert the Post model instance into a sitemap URL entry.
+     *
+     * @return \Spatie\Sitemap\Tags\Url
+     */
+    public function toSitemapUrl() {
+        $url = Url::create(url("{$this->id}"))
+            ->setLastModificationDate($this->updated_at)
+            ->setChangeFrequency('daily')
+            ->setPriority(0.8);
+
+        return $url;
+    }
+}
+```
+
 You can generate the sitemap with:
 
 ```bash

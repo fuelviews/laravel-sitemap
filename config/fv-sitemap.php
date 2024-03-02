@@ -43,4 +43,14 @@ return [
         '/pages_sitemap.xml',
         '/posts_sitemap.xml',
     ],
+
+    /**
+     * Specifies the model class to be used for fetching posts to be included in the sitemap.
+     * This setting allows for customization of the source of content, enabling the sitemap to reflect the structure and content of your website accurately.
+     * The specified model should implement any necessary logic to retrieve only the posts that should be visible to search engines.
+     */
+    'post_model' => [
+        App\Models\Post::class,
+    ],
+
 ];
