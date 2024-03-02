@@ -92,9 +92,9 @@ php artisan sitemap:generate
 
 ## Usage
 
-```
-To access the sitemap, navigate to your application's URL and append /sitemap.xml to it.For example, if your application is hosted at http://www.example.com, the sitemap can be found at http://www.example.com/sitemap.xml.
-```
+To access the sitemap, navigate to your application's URL and append /sitemap.xml to it.
+
+For example, if your application is hosted at http://www.example.com, the sitemap can be found at http://www.example.com/sitemap.xml.
 
 ## Testing
 
