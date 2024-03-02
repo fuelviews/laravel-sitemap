@@ -3,8 +3,9 @@
 namespace Fuelviews\Sitemap\Commands;
 
 use Illuminate\Console\Command;
-use function Laravel\Prompts\select;
+
 use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\select;
 
 class InstallCommand extends Command
 {
@@ -24,11 +25,11 @@ class InstallCommand extends Command
     public function handle(): int
     {
         if (confirm(
-            label:'Do you want to publish the configuration file?',
+            label: 'Do you want to publish the configuration file?',
         )) {
             $this->call('vendor:publish', [
-                '--provider' => "Fuelviews\\Sitemap\\SitemapServiceProvider",
-                '--tag' => "config"
+                '--provider' => 'Fuelviews\\Sitemap\\SitemapServiceProvider',
+                '--tag' => 'config',
             ]);
         }
 
@@ -70,12 +71,14 @@ class InstallCommand extends Command
         $scheduleMethodPos = strpos($kernelContents, 'function schedule(');
         if ($scheduleMethodPos === false) {
             $this->error('Unable to find the schedule method in Kernel.php.');
+
             return;
         }
 
         $insertPos = strpos($kernelContents, '//', $scheduleMethodPos);
         if ($insertPos === false) {
             $this->error('Unable to find the insertion point in Kernel.php.');
+
             return;
         }
 
@@ -84,6 +87,7 @@ class InstallCommand extends Command
 
         if (file_put_contents($kernelPath, $newKernelContents) === false) {
             $this->error('Failed to write to Kernel.php.');
+
             return;
         }
     }
@@ -93,18 +97,18 @@ class InstallCommand extends Command
     */
     protected function openInBrowser($url)
     {
-        switch(PHP_OS_FAMILY) {
+        switch (PHP_OS_FAMILY) {
             case 'Windows':
-                exec("start " . escapeshellarg($url));
+                exec('start '.escapeshellarg($url));
                 break;
             case 'Linux':
-                exec("xdg-open " . escapeshellarg($url));
+                exec('xdg-open '.escapeshellarg($url));
                 break;
             case 'Darwin': // macOS
-                exec("open " . escapeshellarg($url));
+                exec('open '.escapeshellarg($url));
                 break;
             default:
-                $this->error("Platform not supported.");
+                $this->error('Platform not supported.');
                 $this->info("Please visit: $url");
                 break;
         }

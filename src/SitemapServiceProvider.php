@@ -5,9 +5,9 @@ namespace Fuelviews\Sitemap;
 use Fuelviews\Sitemap\Commands\InstallCommand;
 use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
 use Fuelviews\Sitemap\Http\Controllers\SitemapController;
+use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Illuminate\Support\Facades\Route;
 
 class SitemapServiceProvider extends PackageServiceProvider
 {
@@ -27,7 +27,7 @@ class SitemapServiceProvider extends PackageServiceProvider
             ->publishesServiceProvider('SitemapServiceProvider')
             ->hasCommands([
                 SitemapGenerateCommand::class,
-                InstallCommand::class
+                InstallCommand::class,
             ]);
     }
 
