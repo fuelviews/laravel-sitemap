@@ -8,14 +8,6 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Fuelviews\\Sitemap\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
-    }
 
     protected function getPackageProviders($app)
     {
@@ -24,13 +16,10 @@ class TestCase extends Orchestra
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app)
     {
-        config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-sitemap_table.php.stub';
-        $migration->up();
-        */
+        // Set environment values required for your tests
+        $app['config']->set('app.url', 'https://localhost');
     }
+
 }
