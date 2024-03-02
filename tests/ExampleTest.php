@@ -7,4 +7,3 @@ it('can test', function () {
 it('loads the sitemap service provider', function () {
     $this->assertTrue(class_exists(\Fuelviews\Sitemap\SitemapServiceProvider::class));
 });
-
