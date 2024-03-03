@@ -151,7 +151,7 @@ If you've found a bug regarding security please mail [support@fuelviews.com](mai
 
 ## Support us
 
-Spatie is a web development agency based in Portland, Maine. You'll find an overview of all our projects [on our website](https://fuelviews.com).
+Fuelviews is a web development agency based in Portland, Maine. You'll find an overview of all our projects [on our website](https://fuelviews.com).
 
 ## License
 
