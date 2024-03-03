@@ -39,12 +39,6 @@ class SitemapServiceProvider extends PackageServiceProvider
      */
     public function PackageRegistered()
     {
-        /*if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/fv-sitemap.php' => config_path('fv-sitemap.php'),
-            ], 'laravel-sitemap-config');
-        }*/
-
         Route::get('/{filename}', [SitemapController::class, 'index'])
             ->where('filename', '.*\.xml$');
     }

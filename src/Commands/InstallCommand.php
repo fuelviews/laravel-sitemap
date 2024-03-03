@@ -38,7 +38,7 @@ class InstallCommand extends Command
         )) {
             $this->call('vendor:publish', [
                 '--provider' => 'Fuelviews\\Sitemap\\SitemapServiceProvider',
-                '--tag' => 'config',
+                '--tag' => 'sitemap-config',
             ]);
         }
 

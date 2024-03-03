@@ -136,11 +136,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/fuelviews/.github/blob/main/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+If you've found a bug regarding security please mail [support@fuelviews.com](mailto:support@fuelviews.com) instead of using the issue tracker.
 
 ## Credits
 
@@ -148,6 +148,10 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [Fuelviews](https://github.com/fuelviews)
 - [Spatie](https://github.com/spatie)
 - [All Contributors](../../contributors)
+
+## Support us
+
+Spatie is a web development agency based in Portland, Maine. You'll find an overview of all our projects [on our website](https://fuelviews.com).
 
 ## License
 
