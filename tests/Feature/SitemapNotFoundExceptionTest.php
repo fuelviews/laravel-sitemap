@@ -19,7 +19,7 @@ class SitemapNotFoundExceptionTest extends TestCase
         $mockSitemap->shouldReceive('getSitemapContents')
             ->once()
             ->with('sitemap.xml')
-            ->andThrow(new FileNotFoundException("Sitemap does not exist and could not be generated."));
+            ->andThrow(new FileNotFoundException('Sitemap does not exist and could not be generated.'));
 
         $this->expectException(FileNotFoundException::class);
 

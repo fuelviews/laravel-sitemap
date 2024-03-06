@@ -24,7 +24,7 @@ class TestCase extends Orchestra
     {
         return [
             SitemapServiceProvider::class,
-            \Spatie\Sitemap\SitemapServiceProvider::class
+            \Spatie\Sitemap\SitemapServiceProvider::class,
         ];
     }
 
