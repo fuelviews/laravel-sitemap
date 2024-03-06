@@ -2,12 +2,13 @@
 
 namespace Fuelviews\Sitemap\Commands;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
+use InvalidArgumentException;
 use Spatie\Crawler\Crawler;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Sitemap;
@@ -20,27 +21,20 @@ class SitemapGenerateCommand extends Command
     /**
      * The name and signature of the console command.
      *
-     * This signature allows the command to be called using the console.
-     * It defines the command's name that will be used when running it from the command line.
      */
     protected $signature = 'sitemap:generate';
 
     /**
      * The console command description.
      *
-     * This description provides a brief overview of what the command does
-     * when listed in the console. It's shown when you run `php artisan list`
-     * or when you specifically view help for this command.
      */
-    protected $description = 'Sitemap Generation';
+    protected $description = 'Sitemap generation';
 
     /**
      * The name of the filesystem disk where sitemap files are stored.
-     *
-     * This property is used to specify the storage disk that should be utilized for retrieving sitemap files.
-     * It can be set to any of the disk names configured in the filesystems configuration file, allowing for flexible storage options.
+     *.
      */
-    protected $diskName;
+    protected string $diskName = '';
 
     /**
      * Execute the console command.
@@ -51,34 +45,36 @@ class SitemapGenerateCommand extends Command
      * and posts and then either create a sitemap index to include them or
      * directly generate a single sitemap.
      */
-    public function handle()
+    public function handle(): bool
     {
-        $this->diskName = Config::get('fv-sitemap.disk', 'public');
+        $this->diskName = $this->getDiskName();
 
         try {
-            $SitemapIndex = ! Config::get('fv-sitemap.exclude_index');
+            $SitemapIndex = ! $this->getExcludeIndex();
 
             if ($SitemapIndex) {
                 $this->generatePagesSitemap();
                 $this->generatePostsSitemap();
 
                 $sitemapIndex = SitemapIndex::create()
-                    ->add('/sitemap/pages_sitemap.xml')
-                    ->add('/sitemap/posts_sitemap.xml');
+                    ->add('pages_sitemap.xml')
+                    ->add('posts_sitemap.xml');
 
-                $sitemapIndex->writeToDisk($this->diskName, '/sitemap/sitemap.xml', true);
+                $sitemapIndex->writeToDisk($this->diskName, 'sitemap/sitemap.xml', true);
             } else {
                 $this->generatePagesSitemap('sitemap.xml');
             }
 
             $this->info('Sitemap generated successfully.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Sitemap generation failed: '.$e->getMessage());
 
             $this->error('Sitemap generation failed: '.$e->getMessage());
 
-            return 1;
+            return true;
         }
+
+        return true;
     }
 
     /**
@@ -88,11 +84,11 @@ class SitemapGenerateCommand extends Command
      * It filters out URLs based on various criteria, including predefined excluded routes, paths,
      * and specific URLs. The resulting sitemap is then saved to a specified filename.
      *
-     * @param  string  $filename  The filename for the generated sitemap, defaulting to 'pages_sitemap.xml'.
+     * @param string $filename  The filename for the generated sitemap, defaulting to 'pages_sitemap.xml'.
      */
-    protected function generatePagesSitemap($filename = 'pages_sitemap.xml')
+    protected function generatePagesSitemap(string $filename = 'pages_sitemap.xml'): bool
     {
-        $filename = 'sitemap/'.$filename;
+        $filename = $this->getFileName($filename);
 
         $excludedRouteNameUrls = $this->mapExcludedRouteNamesToUrls();
         $excludedPaths = $this->getExcludedPaths();
@@ -106,11 +102,11 @@ class SitemapGenerateCommand extends Command
                 $path = parse_url($url->url, PHP_URL_PATH);
 
                 if ($this->isRedirect($url->url)) {
-                    return;
+                    return false;
                 }
 
                 if (in_array($path, $excludedRouteNameUrls) || $this->isPathExcluded($path, $excludedPaths) || in_array($path, $excludedUrls)) {
-                    return null;
+                    return false;
                 }
 
                 $baseUrlWithoutSlash = rtrim(config('app.url'), '/');
@@ -119,12 +115,14 @@ class SitemapGenerateCommand extends Command
                 if ($normalizedUrl !== $baseUrlWithoutSlash) {
                     $url->setUrl($normalizedUrl);
                 } elseif ($url->url === $baseUrlWithoutSlash.'/') {
-                    return null;
+                    return false;
                 }
 
                 return $url;
             })->getSitemap()
             ->writeToDisk($this->diskName, $filename, true);
+
+        return true;
     }
 
     /**
@@ -134,27 +132,32 @@ class SitemapGenerateCommand extends Command
      * It should define logic similar to generatePagesSitemap, tailored to the data structure and
      * requirements of the posts being included. The generated sitemap could exclude certain posts
      * based on criteria like publication status, visibility settings, or other custom logic.
+     * @throws Exception
      */
-    protected function generatePostsSitemap($filename = 'posts_sitemap.xml')
+    protected function generatePostsSitemap(string $filename = 'posts_sitemap.xml'): void
     {
-        $filename = 'sitemap/'.$filename;
+        $filename = $this->getFileName($filename);
 
         $sitemap = Sitemap::create();
 
         $postModelClasses = Config::get('sitemap.post_model', []);
 
-        if (! class_exists($postModelClass)) {
-            throw new \Exception("Configured model class '{$postModelClass}' does not exist.");
-        }
+        $postModelClasses = is_array($postModelClasses) ? $postModelClasses : [$postModelClasses];
 
-        if (! in_array(Sitemapable::class, class_implements($postModelClass))) {
-            throw new \Exception("Configured model class '{$postModelClass}' does not implement the Sitemapable interface.");
-        }
+        foreach ($postModelClasses as $postModelClass) {
+            if (!class_exists($postModelClass)) {
+                throw new Exception("Configured model class '$postModelClass' does not exist.");
+            }
 
-        $posts = $postModelClass::where('status', 'published')->get();
+            if (!in_array(Sitemapable::class, class_implements($postModelClass))) {
+                throw new Exception("Configured model class '$postModelClass' does not implement the Sitemapable interface.");
+            }
 
-        foreach ($posts as $post) {
-            $sitemap->add($post->toSitemapUrl());
+            $posts = $postModelClass::where('status', 'published')->get();
+
+            foreach ($posts as $post) {
+                $sitemap->add($post->toSitemapUrl());
+            }
         }
 
         $sitemap->writeToDisk($this->diskName, $filename, true);
@@ -163,11 +166,11 @@ class SitemapGenerateCommand extends Command
     /**
      * Determine if a path matches any of the excluded patterns.
      *
-     * @param  string  $path
-     * @param  array  $excludedPatterns
+     * @param $path
+     * @param array $excludedPatterns
      * @return bool
      */
-    protected function isPathExcluded($path, $excludedPatterns)
+    protected function isPathExcluded($path, array $excludedPatterns): bool
     {
         foreach ($excludedPatterns as $pattern) {
             if (preg_match('#^'.preg_quote($pattern, '#').'#', $path)) {
@@ -181,12 +184,12 @@ class SitemapGenerateCommand extends Command
     /**
      * Check if a given URL is a redirect.
      *
-     * @param  string  $url
+     * @param string $url
      * @return bool
      */
-    protected function isRedirect($url)
+    protected function isRedirect(string $url): bool
     {
-        $excludeRedirects = Config::get('fv-sitemap.exclude_redirects');
+        $excludeRedirects = $this->getExcludeRedirects();
 
         if (! $excludeRedirects) {
             return false;
@@ -210,17 +213,58 @@ class SitemapGenerateCommand extends Command
      *
      * @return array
      */
-    protected function mapExcludedRouteNamesToUrls()
+    protected function mapExcludedRouteNamesToUrls(): array
     {
         $excludedRouteNames = $this->getExcludedRouteNames();
 
         return collect($excludedRouteNames)->map(function ($routeName) {
             try {
                 return route($routeName, [], false);
-            } catch (\InvalidArgumentException $e) {
-                return null;
+            } catch (InvalidArgumentException $e) {
+                Log::error('Error excluded route name: '.$e->getMessage());
+                return false;
             }
         })->filter()->values()->all();
+    }
+
+    /**
+     *
+     * @param $filename
+     * @return string
+     */
+    protected function getFileName($filename): string
+    {
+        return 'sitemap/'.$filename;
+    }
+
+    /**
+     *
+     *
+     * @return string
+     */
+    protected function getDiskName(): string
+    {
+        return Config::get('fv-sitemap.disk', 'public');
+    }
+
+    /**
+     *
+     *
+     * @return string
+     */
+    protected function getExcludeIndex(): string
+    {
+        return Config::get('fv-sitemap.exclude_subcategory_sitemap_links', 'true');
+    }
+
+    /**
+     *
+     *
+     * @return string
+     */
+    protected function getExcludeRedirects(): string
+    {
+        return Config::get('fv-sitemap.exclude_redirects', 'true');
     }
 
     /**
@@ -228,10 +272,9 @@ class SitemapGenerateCommand extends Command
      *
      * @return array
      */
-    protected function getExcludedRouteNames()
+    protected function getExcludedRouteNames(): array
     {
         return Config::get('fv-sitemap.exclude_route_names', []);
-
     }
 
     /**
@@ -239,7 +282,7 @@ class SitemapGenerateCommand extends Command
      *
      * @return array
      */
-    protected function getExcludedPaths()
+    protected function getExcludedPaths(): array
     {
         return Config::get('fv-sitemap.exclude_paths', []);
     }
@@ -249,7 +292,7 @@ class SitemapGenerateCommand extends Command
      *
      * @return array
      */
-    protected function getExcludedUrls()
+    protected function getExcludedUrls(): array
     {
         return Config::get('fv-sitemap.exclude_urls', []);
     }

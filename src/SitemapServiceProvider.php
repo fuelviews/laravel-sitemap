@@ -2,9 +2,9 @@
 
 namespace Fuelviews\Sitemap;
 
-use Fuelviews\Sitemap\Commands\InstallCommand;
 use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
 use Fuelviews\Sitemap\Http\Controllers\SitemapController;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -24,10 +24,8 @@ class SitemapServiceProvider extends PackageServiceProvider
             ->name('laravel-sitemap')
             ->hasConfigFile('fv-sitemap')
             ->publishesServiceProvider('SitemapServiceProvider')
-            ->hasCommands([
-                SitemapGenerateCommand::class,
-                InstallCommand::class,
-            ]);
+            ->hasCommand(SitemapGenerateCommand::class,
+            );
     }
 
     /**
@@ -37,9 +35,9 @@ class SitemapServiceProvider extends PackageServiceProvider
      * It directs these requests to the SitemapController, specifically to the 'index' method, which handles the retrieval and serving of sitemap files.
      * The route is configured to only match requests ending in '.xml', ensuring that only sitemap file requests are handled.
      */
-    public function PackageRegistered()
+    public function PackageRegistered(): void
     {
-        Route::get('/{filename}', [SitemapController::class, 'index'])
+        Route::get('/{filename}', SitemapController::class)
             ->where('filename', '.*\.xml$');
     }
 }

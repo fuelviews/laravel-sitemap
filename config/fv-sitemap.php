@@ -12,7 +12,7 @@ return [
      * Determines whether the index page should be excluded from the sitemap.
      * Setting this to `true` will exclude the index page, `false` will include it.
      */
-    'exclude_index' => true,
+    'exclude_subcategory_sitemap_links' => true,
 
     /**
      * Controls whether redirect URLs should be excluded from the sitemap.

@@ -15,12 +15,6 @@ You can require the package and it's dependencies via composer:
 composer require fuelviews/laravel-sitemap
 ```
 
-You can install the package with:
-
-```bash
-php artisan sitemap:install
-```
-
 You can manually publish the config file with:
 
 ```bash
@@ -44,7 +38,7 @@ return [
      * Determines whether the index page should be excluded from the sitemap.
      * Setting this to `true` will exclude the index page, `false` will include it.
      */
-    'exclude_index' => true,
+    'exclude_subcategory_sitemap_links' => true,
 
     /**
      * Controls whether redirect URLs should be excluded from the sitemap.
