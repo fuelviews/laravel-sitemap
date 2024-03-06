@@ -14,14 +14,10 @@ use Illuminate\Routing\Controller as BaseController;
  */
 class SitemapController extends BaseController
 {
-
-
     protected Sitemap $sitemap;
 
     /**
      * SitemapController constructor.
-     *
-     * @param Sitemap $sitemap
      */
     public function __construct(Sitemap $sitemap)
     {
@@ -31,8 +27,8 @@ class SitemapController extends BaseController
     /**
      * Retrieve the content of the specified sitemap file.
      *
-     * @param string $filename The name of the sitemap file.
-     * @return Response
+     * @param  string  $filename  The name of the sitemap file.
+     *
      * @throws FileNotFoundException
      */
     public function __invoke(string $filename): Response
