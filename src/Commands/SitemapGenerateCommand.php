@@ -18,20 +18,10 @@ use Spatie\Sitemap\Tags\Url;
 
 class SitemapGenerateCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     */
     protected $signature = 'sitemap:generate';
 
-    /**
-     * The console command description.
-     */
     protected $description = 'Sitemap generation';
 
-    /**
-     * The name of the filesystem disk where sitemap files are stored.
-     *.
-     */
     protected string $diskName = '';
 
     /**
