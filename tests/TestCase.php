@@ -28,7 +28,7 @@ class TestCase extends Orchestra
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('fv-sitemap.disk', 'public');
         $app['config']->set('fv-sitemap.exclude_subcategory_sitemap_links', true);

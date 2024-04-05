@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/fuelviews/laravel-sitemap.svg?style=flat-square)](https://packagist.org/packages/fuelviews/laravel-sitemap)
 
-The Laravel Sitemap package by Fuelviews is a robust and easy-to-use solution designed to automatically generate sitemaps for your Laravel application. This package simplifies the process of creating dynamic sitemaps, ensuring that search engines can effortlessly discover and index your website's pages. Whether you're managing a small blog or a large e-commerce platform, our Laravel Sitemap package seamlessly integrates with your project, enhancing SEO performance and visibility.
+Fuelviews sitemap is a robust and easy-to-use solution designed to automatically generate sitemaps for your Laravel application.
 
 ## Installation
 
@@ -18,7 +18,7 @@ composer require fuelviews/laravel-sitemap
 You can manually publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="Fuelviews\Sitemap\SitemapServiceProvider" --tag="laravel-sitemap-config"
+php artisan vendor:publish --provider="Fuelviews\Sitemap\SitemapServiceProvider" --tag="sitemap-config"
 ```
 
 This is the contents of the published config file:
@@ -81,7 +81,9 @@ return [
 ];
 ```
 
-You can also add your models directly by implementing the \Spatie\Sitemap\Contracts\Sitemapable interface. You also need to define your post_model in the fv-sitemap.php config file.
+## Usage
+
+You can also add your models directly by implementing the Spatie\Sitemap\Contracts\Sitemapable interface. You also need to define your post_model in the fv-sitemap.php config file.
 ```php
 namespace App\Models;
 
@@ -111,8 +113,6 @@ You can generate the sitemap with:
 ```bash
 php artisan sitemap:generate
 ```
-
-com
 
 ## Testing
 
