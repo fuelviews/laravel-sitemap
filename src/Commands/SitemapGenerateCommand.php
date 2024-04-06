@@ -87,7 +87,12 @@ class SitemapGenerateCommand extends Command
                 $crawler->ignoreRobots();
             })
             ->hasCrawled(function (Url $url) use ($excludedRouteNameUrls, $excludedPaths, $excludedUrls) {
-                $path = parse_url($url->url, PHP_URL_PATH);
+                $parsedUrl = parse_url($url->url);
+                $path = $parsedUrl['path'] ?? '';
+
+                if (isset($parsedUrl['query'])) {
+                    return false;
+                }
 
                 if ($this->isRedirect($url->url)) {
                     return false;
@@ -97,14 +102,16 @@ class SitemapGenerateCommand extends Command
                     return false;
                 }
 
+                $normalizedUrl = preg_replace('#([^:])//+#', '$1/', $url->url);
                 $baseUrlWithoutSlash = rtrim(config('app.url'), '/');
 
-                $normalizedUrl = rtrim($url->url, '/');
-                if ($normalizedUrl !== $baseUrlWithoutSlash) {
-                    $url->setUrl($normalizedUrl);
-                } elseif ($url->url === $baseUrlWithoutSlash.'/') {
-                    return false;
+                if ($normalizedUrl === $baseUrlWithoutSlash) {
+                    $normalizedUrl = $baseUrlWithoutSlash;
+                } else {
+                    $normalizedUrl = rtrim($normalizedUrl, '/');
                 }
+
+                $url->setUrl($normalizedUrl);
 
                 return $url;
             })->getSitemap()
