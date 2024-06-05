@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.2 - 2024-06-05
+
+### What's Changed
+
+* Update readme deps and service provider by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/10
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.1...v0.0.2
+
 ## v0.0.1 - 2024-04-06
 
 ### What's Changed
