@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="/Users/joshuamitchener/Sites/laravel-sitemap/phpunit.xml.dist" tests="3" assertions="7" errors="0" failures="0" skipped="0" time="0.207098">
-    <testsuite name="Fuelviews Test Suite" tests="3" assertions="7" errors="0" failures="0" skipped="0" time="0.207098">
-      <testsuite name="Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundExceptionTest" file="Sitemap Not Found Exception (Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundException)" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.062392">
-        <testcase name="It throws file not found exception if sitemap does not exist and cannot be generated" file="Sitemap Not Found Exception (Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundException)::It throws file not found exception if sitemap does not exist and cannot be generated" class="Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundExceptionTest" classname="Fuelviews.Sitemap.Tests.Feature.SitemapNotFoundExceptionTest" assertions="2" time="0.062392"/>
+  <testsuite name="/Users/joshuamitchener/Sites/laravel-sitemap/phpunit.xml.dist" tests="3" assertions="7" errors="0" failures="0" skipped="0" time="0.154440">
+    <testsuite name="Fuelviews Test Suite" tests="3" assertions="7" errors="0" failures="0" skipped="0" time="0.154440">
+      <testsuite name="Tests\ArchTest" file="tests/ArchTest.php" tests="1" assertions="3" errors="0" failures="0" skipped="0" time="0.099343">
+        <testcase name="it will not use debugging functions" file="tests/ArchTest.php::it will not use debugging functions" class="Tests\ArchTest" classname="Tests.ArchTest" assertions="3" time="0.099343"/>
       </testsuite>
-      <testsuite name="Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommandTest" file="Sitemap Generate Command (Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommand)" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.087395">
-        <testcase name="It generates a sitemap successfully" file="Sitemap Generate Command (Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommand)::It generates a sitemap successfully" class="Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommandTest" classname="Fuelviews.Sitemap.Tests.Feature.Command.SitemapGenerateCommandTest" assertions="2" time="0.087395"/>
+      <testsuite name="Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundExceptionTest" file="Sitemap Not Found Exception (Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundException)" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.009006">
+        <testcase name="It throws file not found exception if sitemap does not exist and cannot be generated" file="Sitemap Not Found Exception (Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundException)::It throws file not found exception if sitemap does not exist and cannot be generated" class="Fuelviews\Sitemap\Tests\Feature\SitemapNotFoundExceptionTest" classname="Fuelviews.Sitemap.Tests.Feature.SitemapNotFoundExceptionTest" assertions="2" time="0.009006"/>
       </testsuite>
-      <testsuite name="Tests\ArchTest" file="tests/ArchTest.php" tests="1" assertions="3" errors="0" failures="0" skipped="0" time="0.057311">
-        <testcase name="it will not use debugging functions" file="tests/ArchTest.php::it will not use debugging functions" class="Tests\ArchTest" classname="Tests.ArchTest" assertions="3" time="0.057311"/>
+      <testsuite name="Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommandTest" file="Sitemap Generate Command (Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommand)" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.046091">
+        <testcase name="It generates a sitemap successfully" file="Sitemap Generate Command (Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommand)::It generates a sitemap successfully" class="Fuelviews\Sitemap\Tests\Feature\Command\SitemapGenerateCommandTest" classname="Fuelviews.Sitemap.Tests.Feature.Command.SitemapGenerateCommandTest" assertions="2" time="0.046091"/>
       </testsuite>
     </testsuite>
   </testsuite>
