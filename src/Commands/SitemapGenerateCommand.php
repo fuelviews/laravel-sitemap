@@ -41,8 +41,12 @@ class SitemapGenerateCommand extends Command
             $SitemapIndex = ! $this->getExcludeSubcategorySitemapLinks();
 
             if ($SitemapIndex) {
-                $this->generatePagesSitemap();
-                $this->generatePostsSitemap();
+                if (! $this->generatePagesSitemap()) {
+                    throw new Exception('Failed to generate pages sitemap');
+                }
+                if (! $this->generatePostsSitemap()) {
+                    throw new Exception('Failed to generate posts sitemap');
+                }
 
                 $sitemapIndex = SitemapIndex::create()
                     ->add('pages_sitemap.xml')
@@ -50,19 +54,20 @@ class SitemapGenerateCommand extends Command
 
                 $sitemapIndex->writeToDisk($this->diskName, 'sitemap/sitemap.xml', true);
             } else {
-                $this->generatePagesSitemap('sitemap.xml');
+                if (! $this->generatePagesSitemap('sitemap.xml')) {
+                    throw new Exception('Failed to generate pages sitemap');
+                }
             }
 
             $this->info('Sitemap generated successfully.');
-        } catch (Exception $e) {
-            Log::error('Sitemap generation failed: '.$e->getMessage());
-
-            $this->error('Sitemap generation failed: '.$e->getMessage());
 
             return true;
-        }
+        } catch (Exception $e) {
+            Log::error('Sitemap generation failed: '.$e->getMessage());
+            $this->error('Sitemap generation failed: '.$e->getMessage());
 
-        return true;
+            return false;
+        }
     }
 
     /**
@@ -82,42 +87,48 @@ class SitemapGenerateCommand extends Command
         $excludedPaths = $this->getExcludedPaths();
         $excludedUrls = $this->getExcludedUrls();
 
-        SitemapGenerator::create(config('app.url'))
-            ->configureCrawler(function (Crawler $crawler) {
-                $crawler->ignoreRobots();
-            })
-            ->hasCrawled(function (Url $url) use ($excludedRouteNameUrls, $excludedPaths, $excludedUrls) {
-                $parsedUrl = parse_url($url->url);
-                $path = $parsedUrl['path'] ?? '';
+        try {
+            SitemapGenerator::create(config('app.url'))
+                ->configureCrawler(function (Crawler $crawler) {
+                    $crawler->ignoreRobots();
+                })
+                ->hasCrawled(function (Url $url) use ($excludedRouteNameUrls, $excludedPaths, $excludedUrls) {
+                    $parsedUrl = parse_url($url->url);
+                    $path = $parsedUrl['path'] ?? '';
 
-                if (isset($parsedUrl['query'])) {
-                    return false;
-                }
+                    if (isset($parsedUrl['query'])) {
+                        return false;
+                    }
 
-                if ($this->isRedirect($url->url)) {
-                    return false;
-                }
+                    if ($this->isRedirect($url->url)) {
+                        return false;
+                    }
 
-                if (in_array($path, $excludedRouteNameUrls) || $this->isPathExcluded($path, $excludedPaths) || in_array($path, $excludedUrls)) {
-                    return false;
-                }
+                    if (in_array($path, $excludedRouteNameUrls) || $this->isPathExcluded($path, $excludedPaths) || in_array($path, $excludedUrls)) {
+                        return false;
+                    }
 
-                $normalizedUrl = preg_replace('#([^:])//+#', '$1/', $url->url);
-                $baseUrlWithoutSlash = rtrim(config('app.url'), '/');
+                    $normalizedUrl = preg_replace('#([^:])//+#', '$1/', $url->url);
+                    $baseUrlWithoutSlash = rtrim(config('app.url'), '/');
 
-                if ($normalizedUrl === $baseUrlWithoutSlash) {
-                    $normalizedUrl = $baseUrlWithoutSlash;
-                } else {
-                    $normalizedUrl = rtrim($normalizedUrl, '/');
-                }
+                    if ($normalizedUrl === $baseUrlWithoutSlash) {
+                        $normalizedUrl = $baseUrlWithoutSlash;
+                    } else {
+                        $normalizedUrl = rtrim($normalizedUrl, '/');
+                    }
 
-                $url->setUrl($normalizedUrl);
+                    $url->setUrl($normalizedUrl);
 
-                return $url;
-            })->getSitemap()
-            ->writeToDisk($this->diskName, $filename, true);
+                    return $url;
+                })->getSitemap()
+                ->writeToDisk($this->diskName, $filename, true);
 
-        return true;
+            return true;
+        } catch (Exception $e) {
+            Log::error('Failed to generate pages sitemap: '.$e->getMessage());
+
+            return false;
+        }
     }
 
     /**
@@ -127,10 +138,8 @@ class SitemapGenerateCommand extends Command
      * It should define logic similar to generatePagesSitemap, tailored to the data structure and
      * requirements of the posts being included. The generated sitemap could exclude certain posts
      * based on criteria like publication status, visibility settings, or other custom logic.
-     *
-     * @throws Exception
      */
-    protected function generatePostsSitemap(string $filename = 'posts_sitemap.xml'): void
+    protected function generatePostsSitemap(string $filename = 'posts_sitemap.xml'): bool
     {
         $filename = $this->getFileName($filename);
 
@@ -140,23 +149,31 @@ class SitemapGenerateCommand extends Command
 
         $postModelClasses = is_array($postModelClasses) ? $postModelClasses : [$postModelClasses];
 
-        foreach ($postModelClasses as $postModelClass) {
-            if (! class_exists($postModelClass)) {
-                throw new Exception("Configured model class '$postModelClass' does not exist.");
+        try {
+            foreach ($postModelClasses as $postModelClass) {
+                if (! class_exists($postModelClass)) {
+                    throw new Exception("Configured model class '$postModelClass' does not exist.");
+                }
+
+                if (! in_array(Sitemapable::class, class_implements($postModelClass))) {
+                    throw new Exception("Configured model class '$postModelClass' does not implement the Sitemapable interface.");
+                }
+
+                $posts = $postModelClass::where('status', 'published')->get();
+
+                foreach ($posts as $post) {
+                    $sitemap->add($post->toSitemapUrl());
+                }
             }
 
-            if (! in_array(Sitemapable::class, class_implements($postModelClass))) {
-                throw new Exception("Configured model class '$postModelClass' does not implement the Sitemapable interface.");
-            }
+            $sitemap->writeToDisk($this->diskName, $filename, true);
 
-            $posts = $postModelClass::where('status', 'published')->get();
+            return true;
+        } catch (Exception $e) {
+            Log::error('Failed to generate posts sitemap: '.$e->getMessage());
 
-            foreach ($posts as $post) {
-                $sitemap->add($post->toSitemapUrl());
-            }
+            return false;
         }
-
-        $sitemap->writeToDisk($this->diskName, $filename, true);
     }
 
     /**

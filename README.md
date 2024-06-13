@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/fuelviews/laravel-sitemap.svg?style=flat-square)](https://packagist.org/packages/fuelviews/laravel-sitemap)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/fix-php-code-style-issues.yml?label=code%20style&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions?query=workflow%3A"Fix+PHP+code+style+issues")
 [![Total Downloads](https://img.shields.io/packagist/dt/fuelviews/laravel-sitemap.svg?style=flat-square)](https://packagist.org/packages/fuelviews/laravel-sitemap)
 
 Laravel sitemap is a robust and easy-to-use solution designed to automatically generate sitemaps for your Laravel application.
@@ -24,8 +24,6 @@ php artisan vendor:publish --provider="Fuelviews\Sitemap\SitemapServiceProvider"
 This is the contents of the published config file:
 
 ```php
-<?php
-
 return [
     /**
      * Specifies the default filesystem disk that should be used.
@@ -84,6 +82,7 @@ return [
 ## Usage
 
 You can also add your models directly by implementing the Spatie\Sitemap\Contracts\Sitemapable interface. You also need to define your post_model in the fv-sitemap.php config file.
+
 ```php
 namespace App\Models;
 
