@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.4 - 2024-07-07
+
+### What's Changed
+
+* Refactor SitemapController and SitemapServiceProvider to allow for default sitemap file name and update the route to only accept requests for the specific sitemap.xml file. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/13
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.3...v0.0.4
+
 ## v0.0.3 - 2024-06-13
 
 ### What's Changed
