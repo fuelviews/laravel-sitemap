@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.5 - 2024-07-07
+
+### What's Changed
+
+* Refactor sitemap generation and linking functionality. The changes were made to improve the flexibility and reusability of the code, allowing for dynamic sitemap filenames and routes. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/14
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.4...v0.0.5
+
 ## v0.0.4 - 2024-07-07
 
 ### What's Changed
