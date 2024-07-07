@@ -36,7 +36,7 @@ class SitemapServiceProvider extends PackageServiceProvider
      */
     public function PackageRegistered(): void
     {
-        Route::get('/sitemap.xml', SitemapController::class)
+        Route::get('/{filename}', SitemapController::class)
             ->where('filename', '.*\.xml$')
             ->name('sitemap');
     }

@@ -113,6 +113,13 @@ You can generate the sitemap with:
 php artisan sitemap:generate
 ```
 
+You can link to the sitemap with:
+
+```blade
+route('sitemap', ['filename' => 'sitemap.xml'])
+```
+
+
 ## Testing
 
 ```bash
