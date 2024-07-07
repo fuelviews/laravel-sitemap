@@ -27,12 +27,14 @@ class SitemapController extends BaseController
     /**
      * Retrieve the content of the specified sitemap file.
      *
-     * @param  string  $filename  The name of the sitemap file.
+     * @param  string|null  $filename  The name of the sitemap file.
      *
      * @throws FileNotFoundException
      */
-    public function __invoke(string $filename): Response
+    public function __invoke(?string $filename = null): Response
     {
+        $filename = 'sitemap.xml';
+
         $contents = $this->sitemap->getSitemapContents($filename);
 
         return response($contents, 200)
