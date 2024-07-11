@@ -15,6 +15,7 @@ use Illuminate\Routing\Controller as BaseController;
 class SitemapController extends BaseController
 {
     protected Sitemap $sitemap;
+
     protected $defaultFilename = 'sitemap.xml';
 
     /**
