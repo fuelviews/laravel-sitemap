@@ -16,6 +16,8 @@ class SitemapController extends BaseController
 {
     protected Sitemap $sitemap;
 
+    protected $defaultFilename = 'sitemap.xml';
+
     /**
      * SitemapController constructor.
      */
@@ -31,9 +33,9 @@ class SitemapController extends BaseController
      *
      * @throws FileNotFoundException
      */
-    public function __invoke(?string $filename): Response
+    public function __invoke(): Response
     {
-        $contents = $this->sitemap->getSitemapContents($filename);
+        $contents = $this->sitemap->getSitemapContents($this->defaultFilename);
 
         return response($contents, 200)
             ->header('Content-Type', 'application/xml');
