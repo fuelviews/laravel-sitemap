@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.6 - 2024-07-11
+
+### What's Changed
+
+* Update sitemap defaults by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/15
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.5...v0.0.6
+
 ## v0.0.5 - 2024-07-07
 
 ### What's Changed
