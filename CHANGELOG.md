@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.7 - 2024-09-27
+
+### What's Changed
+
+* Bump laravel/pint from 1.16.1 to 1.17.3 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/26
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.6...v0.0.7
+
 ## v0.0.6 - 2024-07-11
 
 ### What's Changed
