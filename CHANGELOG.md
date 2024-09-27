@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.8 - 2024-09-27
+
+### What's Changed
+
+* Update dependabot-auto-merge.yml by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/27
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.7...v0.0.8
+
 ## v0.0.7 - 2024-09-27
 
 ### What's Changed
