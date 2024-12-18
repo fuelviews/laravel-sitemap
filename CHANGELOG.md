@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.12 - 2024-12-18
+
+### What's Changed
+
+* Bump poseidon/wait-for-status-checks from 0.5.0 to 0.6.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/33
+* Bump poseidon/wait-for-status-checks from 0.5.0 to 0.6.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/35
+* Bump laravel/framework from 10.48.12 to 10.48.23 in the composer group across 1 directory by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/38
+* Bump pestphp/pest from 2.34.8 to 2.36.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/39
+* Bump orchestra/testbench from 8.23.2 to 8.27.2 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/41
+* Refactored the GitHub workflow to run only if the actor is not Dependabot. Updated the return type of the  method in the  class to use the  constants for success and failure. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/46
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.9...v0.0.12
+
 ## v0.0.11 - 2024-11-10
 
 ### What's Changed
