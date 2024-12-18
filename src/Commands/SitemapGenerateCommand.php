@@ -61,10 +61,12 @@ class SitemapGenerateCommand extends Command
             }
 
             $this->info('Sitemap generated successfully.');
+
             return CommandAlias::SUCCESS;
         } catch (Exception $e) {
             Log::error('Sitemap generation failed: '.$e->getMessage());
             $this->error('Sitemap generation failed: '.$e->getMessage());
+
             return CommandAlias::FAILURE;
         }
     }
