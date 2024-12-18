@@ -15,6 +15,7 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapGenerator;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
+use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class SitemapGenerateCommand extends Command
 {
@@ -33,7 +34,7 @@ class SitemapGenerateCommand extends Command
      * and posts and then either create a sitemap index to include them or
      * directly generate a single sitemap.
      */
-    public function handle(): bool
+    public function handle(): int
     {
         $this->diskName = $this->getDiskName();
 
@@ -61,12 +62,12 @@ class SitemapGenerateCommand extends Command
 
             $this->info('Sitemap generated successfully.');
 
-            return true;
+            return CommandAlias::SUCCESS;
         } catch (Exception $e) {
             Log::error('Sitemap generation failed: '.$e->getMessage());
             $this->error('Sitemap generation failed: '.$e->getMessage());
 
-            return false;
+            return CommandAlias::FAILURE;
         }
     }
 
