@@ -202,7 +202,7 @@ class SitemapGenerateCommand extends Command
             return false;
         }
 
-        $client = new Client();
+        $client = new Client;
         try {
             $response = $client->request('HEAD', $url, ['allow_redirects' => false]);
             $statusCode = $response->getStatusCode();
