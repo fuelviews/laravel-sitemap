@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.13 - 2025-01-08
+
+### What's Changed
+
+* Bump spatie/laravel-package-tools from 1.16.4 to 1.17.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/47
+* Bump laravel/pint from 1.18.1 to 1.18.3 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/43
+* Bump orchestra/testbench from 8.27.2 to 8.30.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/48
+* Bump spatie/browsershot from 4.1.0 to 4.4.0 in the composer group across 1 directory by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/49
+* Update deps, add php-cs-fix config by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/56
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.12...v0.0.13
+
 ## v0.0.12 - 2024-12-18
 
 ### What's Changed
