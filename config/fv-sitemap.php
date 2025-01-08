@@ -47,6 +47,6 @@ return [
      * Specifies the model class to be used for fetching posts to be included in the sitemap.
      */
     'post_model' => [
-        //App\Models\Post::class,
+        // App\Models\Post::class,
     ],
 ];
