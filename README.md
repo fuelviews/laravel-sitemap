@@ -1,8 +1,8 @@
 # Laravel sitemap package
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/fuelviews/laravel-sitemap.svg?style=flat-square)](https://packagist.org/packages/fuelviews/laravel-sitemap)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions/workflows/run-tests.yml?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/fix-php-code-style-issues.yml?label=code%20style&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions/workflows/php-cs-fixer.yml?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/run-tests.yml?label=tests&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions/workflows/run-tests.yml)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/fuelviews/laravel-sitemap/php-cs-fixer.yml?label=code%20style&style=flat-square)](https://github.com/fuelviews/laravel-sitemap/actions/workflows/php-cs-fixer.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/fuelviews/laravel-sitemap.svg?style=flat-square)](https://packagist.org/packages/fuelviews/laravel-sitemap)
 
 Laravel sitemap is a robust and easy-to-use solution designed to automatically generate sitemaps for your Laravel application.
@@ -58,7 +58,7 @@ php artisan sitemap:generate
 You can link to the sitemap with:
 
 ```blade
-route('sitemap', ['filename' => 'sitemap.xml'])
+route('sitemap')
 ```
 
 
