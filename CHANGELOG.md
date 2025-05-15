@@ -2,7 +2,22 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.16 - 2025-05-15
+
+### What's Changed
+
+* Bump spatie/laravel-package-tools from 1.16.4 to 1.17.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/47
+* Bump laravel/pint from 1.18.1 to 1.18.3 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/43
+* Bump orchestra/testbench from 8.27.2 to 8.30.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/48
+* Bump spatie/browsershot from 4.1.0 to 4.4.0 in the composer group across 1 directory by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/49
+* Bump laravel/pint from 1.19.0 to 1.21.1 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/67
+* Update GitHub Actions workflows to enhance release note generation and adjust permissions for pull requests. Refactor the SitemapController and ServiceProvider for improved clarity and functionality. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/75
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.12...v0.0.16
+
 ## v0.0.15 - 2025-05-15
+
+* Update GitHub Actions workflows to improve release note generation and adjust permissions for pull requests. Add a new route for sitemap generation and refactor the SitemapController and ServiceProvider for better clarity and functionality. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/74
 
 **Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.15...v0.0.15
 
