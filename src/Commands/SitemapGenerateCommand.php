@@ -45,6 +45,7 @@ class SitemapGenerateCommand extends Command
                 if (! $this->generatePagesSitemap()) {
                     throw new Exception('Failed to generate pages sitemap');
                 }
+
                 if (! $this->generatePostsSitemap()) {
                     throw new Exception('Failed to generate posts sitemap');
                 }
@@ -52,20 +53,17 @@ class SitemapGenerateCommand extends Command
                 $sitemapIndex = SitemapIndex::create()
                     ->add('pages_sitemap.xml')
                     ->add('posts_sitemap.xml');
-
                 $sitemapIndex->writeToDisk($this->diskName, 'sitemap/sitemap.xml', true);
-            } else {
-                if (! $this->generatePagesSitemap('sitemap.xml')) {
-                    throw new Exception('Failed to generate pages sitemap');
-                }
+            } elseif (! $this->generatePagesSitemap('sitemap.xml')) {
+                throw new Exception('Failed to generate pages sitemap');
             }
 
             $this->info('Sitemap generated successfully.');
 
             return CommandAlias::SUCCESS;
-        } catch (Exception $e) {
-            Log::error('Sitemap generation failed: '.$e->getMessage());
-            $this->error('Sitemap generation failed: '.$e->getMessage());
+        } catch (Exception $exception) {
+            Log::error('Sitemap generation failed: '.$exception->getMessage());
+            $this->error('Sitemap generation failed: '.$exception->getMessage());
 
             return CommandAlias::FAILURE;
         }
@@ -90,10 +88,10 @@ class SitemapGenerateCommand extends Command
 
         try {
             SitemapGenerator::create(config('app.url'))
-                ->configureCrawler(function (Crawler $crawler) {
+                ->configureCrawler(function (Crawler $crawler): void {
                     $crawler->ignoreRobots();
                 })
-                ->hasCrawled(function (Url $url) use ($excludedRouteNameUrls, $excludedPaths, $excludedUrls) {
+                ->hasCrawled(function (Url $url) use ($excludedRouteNameUrls, $excludedPaths, $excludedUrls): false|\Spatie\Sitemap\Tags\Url {
                     $parsedUrl = parse_url($url->url);
                     $path = $parsedUrl['path'] ?? '';
 
@@ -112,11 +110,7 @@ class SitemapGenerateCommand extends Command
                     $normalizedUrl = preg_replace('#([^:])//+#', '$1/', $url->url);
                     $baseUrlWithoutSlash = rtrim(config('app.url'), '/');
 
-                    if ($normalizedUrl === $baseUrlWithoutSlash) {
-                        $normalizedUrl = $baseUrlWithoutSlash;
-                    } else {
-                        $normalizedUrl = rtrim($normalizedUrl, '/');
-                    }
+                    $normalizedUrl = $normalizedUrl === $baseUrlWithoutSlash ? $baseUrlWithoutSlash : rtrim($normalizedUrl, '/');
 
                     $url->setUrl($normalizedUrl);
 
@@ -125,8 +119,8 @@ class SitemapGenerateCommand extends Command
                 ->writeToDisk($this->diskName, $filename, true);
 
             return true;
-        } catch (Exception $e) {
-            Log::error('Failed to generate pages sitemap: '.$e->getMessage());
+        } catch (Exception $exception) {
+            Log::error('Failed to generate pages sitemap: '.$exception->getMessage());
 
             return false;
         }
@@ -153,11 +147,11 @@ class SitemapGenerateCommand extends Command
         try {
             foreach ($postModelClasses as $postModelClass) {
                 if (! class_exists($postModelClass)) {
-                    throw new Exception("Configured model class '$postModelClass' does not exist.");
+                    throw new Exception(sprintf("Configured model class '%s' does not exist.", $postModelClass));
                 }
 
                 if (! in_array(Sitemapable::class, class_implements($postModelClass))) {
-                    throw new Exception("Configured model class '$postModelClass' does not implement the Sitemapable interface.");
+                    throw new Exception(sprintf("Configured model class '%s' does not implement the Sitemapable interface.", $postModelClass));
                 }
 
                 $posts = $postModelClass::where('status', 'published')->get();
@@ -170,8 +164,8 @@ class SitemapGenerateCommand extends Command
             $sitemap->writeToDisk($this->diskName, $filename, true);
 
             return true;
-        } catch (Exception $e) {
-            Log::error('Failed to generate posts sitemap: '.$e->getMessage());
+        } catch (Exception $exception) {
+            Log::error('Failed to generate posts sitemap: '.$exception->getMessage());
 
             return false;
         }
@@ -182,8 +176,8 @@ class SitemapGenerateCommand extends Command
      */
     protected function isPathExcluded($path, array $excludedPatterns): bool
     {
-        foreach ($excludedPatterns as $pattern) {
-            if (preg_match('#^'.preg_quote($pattern, '#').'#', $path)) {
+        foreach ($excludedPatterns as $excludedPattern) {
+            if (preg_match('#^'.preg_quote($excludedPattern, '#').'#', $path)) {
                 return true;
             }
         }
@@ -198,7 +192,7 @@ class SitemapGenerateCommand extends Command
     {
         $excludeRedirects = $this->getExcludeRedirects();
 
-        if (! $excludeRedirects) {
+        if ($excludeRedirects === '' || $excludeRedirects === '0') {
             return false;
         }
 
@@ -209,8 +203,8 @@ class SitemapGenerateCommand extends Command
             $statusCode = $response->getStatusCode();
 
             return in_array($statusCode, [301, 302, 307, 308]);
-        } catch (GuzzleException $e) {
-            Log::error('Error checking URL: '.$e->getMessage());
+        } catch (GuzzleException $guzzleException) {
+            Log::error('Error checking URL: '.$guzzleException->getMessage());
 
             return false;
         }
@@ -226,8 +220,8 @@ class SitemapGenerateCommand extends Command
         return collect($excludedRouteNames)->map(function ($routeName) {
             try {
                 return route($routeName, [], false);
-            } catch (InvalidArgumentException $e) {
-                Log::error('Error excluded route name: '.$e->getMessage());
+            } catch (InvalidArgumentException $invalidArgumentException) {
+                Log::error('Error excluded route name: '.$invalidArgumentException->getMessage());
 
                 return false;
             }
@@ -237,7 +231,7 @@ class SitemapGenerateCommand extends Command
     /**
      * Get sitemap filename variable.
      */
-    protected function getFileName($filename): string
+    protected function getFileName(string $filename): string
     {
         return 'sitemap/'.$filename;
     }
