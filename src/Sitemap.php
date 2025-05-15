@@ -22,7 +22,7 @@ class Sitemap
         $disk = Config::get('fv-sitemap.disk', 'public');
         $path = 'sitemap/'.$filename;
 
-        if (!Storage::disk($disk)->exists($path) && ! $this->generateSitemap()) {
+        if (! Storage::disk($disk)->exists($path) && ! $this->generateSitemap()) {
             throw new FileNotFoundException('Sitemap does not exist and could not be generated.');
         }
 
