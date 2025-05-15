@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.17 - 2025-05-15
+
+### What's Changed
+
+* Fix workflows by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/76
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.16...v0.0.17
+
 ## v0.0.16 - 2025-05-15
 
 ### What's Changed
