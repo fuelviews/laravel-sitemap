@@ -13,6 +13,7 @@ class TestCase extends Orchestra
      *
      * This method is called before each test method is executed.
      */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

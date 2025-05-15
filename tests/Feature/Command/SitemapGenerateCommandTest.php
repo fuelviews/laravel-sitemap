@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class SitemapGenerateCommandTest extends TestCase
 {
     /** @test */
-    public function it_generates_a_sitemap_successfully()
+    public function it_generates_a_sitemap_successfully(): void
     {
         Artisan::call('sitemap:generate');
 

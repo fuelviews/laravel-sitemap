@@ -11,7 +11,7 @@ use Mockery;
 class SitemapNotFoundExceptionTest extends TestCase
 {
     /** @test */
-    public function it_throws_file_not_found_exception_if_sitemap_does_not_exist_and_cannot_be_generated()
+    public function it_throws_file_not_found_exception_if_sitemap_does_not_exist_and_cannot_be_generated(): void
     {
         $mockSitemap = Mockery::mock(Sitemap::class);
         $this->app->instance(Sitemap::class, $mockSitemap);
@@ -23,6 +23,6 @@ class SitemapNotFoundExceptionTest extends TestCase
 
         $this->expectException(FileNotFoundException::class);
 
-        (new SitemapController($mockSitemap))->__invoke('sitemap.xml');
+        (new SitemapController($mockSitemap))->__invoke();
     }
 }
