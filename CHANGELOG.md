@@ -6,14 +6,11 @@ All notable changes to `laravel-sitemap` will be documented in this file.
 
 ### What's Changed
 
-* Bump spatie/laravel-package-tools from 1.16.4 to 1.17.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/47
-* Bump laravel/pint from 1.18.1 to 1.18.3 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/43
-* Bump orchestra/testbench from 8.27.2 to 8.30.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/48
-* Bump spatie/browsershot from 4.1.0 to 4.4.0 in the composer group across 1 directory by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/49
 * Bump laravel/pint from 1.19.0 to 1.21.1 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/67
 * Update tests workflow and refactor by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/73
 
-**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.12...v0.0.14
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.13...v0.0.14
 
 ## v0.0.13 - 2025-01-08
 
@@ -38,17 +35,17 @@ All notable changes to `laravel-sitemap` will be documented in this file.
 * Bump orchestra/testbench from 8.23.2 to 8.27.2 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/41
 * Refactored the GitHub workflow to run only if the actor is not Dependabot. Updated the return type of the  method in the  class to use the  constants for success and failure. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/46
 
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.11...v0.0.12
+
 **Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.9...v0.0.12
 
 ## v0.0.11 - 2024-11-10
 
 ### What's Changed
 
-* Bump poseidon/wait-for-status-checks from 0.5.0 to 0.6.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/33
-* Bump poseidon/wait-for-status-checks from 0.5.0 to 0.6.0 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/35
 * Bump symfony/http-foundation from 6.4.8 to 6.4.14 in the composer group across 1 directory by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/37
 
-**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.9...v0.0.11
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.10...v0.0.11
 
 ## v0.0.10 - 2024-11-10
 
