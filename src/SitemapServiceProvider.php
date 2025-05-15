@@ -3,8 +3,6 @@
 namespace Fuelviews\Sitemap;
 
 use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
-use Fuelviews\Sitemap\Http\Controllers\SitemapController;
-use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
