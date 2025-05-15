@@ -4,6 +4,8 @@ All notable changes to `laravel-sitemap` will be documented in this file.
 
 ## v0.0.15 - 2025-05-15
 
+* Update GitHub Actions workflows to improve release note generation and adjust permissions for pull requests. Add a new route for sitemap generation and refactor the SitemapController and ServiceProvider for better clarity and functionality. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/74
+
 **Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.15...v0.0.15
 
 ## v0.0.14 - 2025-05-15
