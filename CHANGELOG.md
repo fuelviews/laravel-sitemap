@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.19 - 2025-06-25
+
+### What's Changed
+
+* Bump rector/rector from 2.0.16 to 2.0.17 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/80
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.18...v0.0.19
+
 ## v0.0.18 - 2025-06-25
 
 ### What's Changed
