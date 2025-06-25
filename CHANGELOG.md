@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.18 - 2025-06-25
+
+### What's Changed
+
+* Bump spatie/crawler from 8.4.2 to 8.4.3 by @dependabot in https://github.com/fuelviews/laravel-sitemap/pull/79
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.17...v0.0.18
+
 ## v0.0.17 - 2025-05-15
 
 ### What's Changed
