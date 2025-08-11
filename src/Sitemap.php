@@ -2,10 +2,14 @@
 
 namespace Fuelviews\Sitemap;
 
+use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
+use Illuminate\Console\Application as ConsoleApplication;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 class Sitemap
 {
@@ -38,8 +42,17 @@ class Sitemap
      */
     protected function generateSitemap(): bool
     {
-        Artisan::call('sitemap:generate');
-
-        return true;
+        try {
+            $command = new SitemapGenerateCommand();
+            
+            $input = new ArrayInput([]);
+            $output = new NullOutput();
+            
+            $exitCode = $command->run($input, $output);
+            
+            return $exitCode === 0;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

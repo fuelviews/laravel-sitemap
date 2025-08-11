@@ -20,9 +20,8 @@ class SitemapServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('laravel-sitemap')
+            ->name('sitemap')
             ->hasConfigFile('fv-sitemap')
-            ->publishesServiceProvider('SitemapServiceProvider')
             ->hasCommand(
                 SitemapGenerateCommand::class,
             );
