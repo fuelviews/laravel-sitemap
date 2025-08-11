@@ -6,8 +6,6 @@ use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 
 class Sitemap
 {
@@ -42,11 +40,9 @@ class Sitemap
     {
         try {
             $command = new SitemapGenerateCommand();
+            $command->setLaravel(app());
 
-            $input = new ArrayInput([]);
-            $output = new NullOutput();
-
-            $exitCode = $command->run($input, $output);
+            $exitCode = $command->handle();
 
             return $exitCode === 0;
         } catch (\Exception $e) {
