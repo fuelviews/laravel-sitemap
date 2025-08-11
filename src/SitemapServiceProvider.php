@@ -35,7 +35,7 @@ class SitemapServiceProvider extends PackageServiceProvider
      * It directs these requests to the SitemapController, specifically to the 'index' method, which handles the retrieval and serving of sitemap files.
      * The route is configured to only match requests ending in '.xml', ensuring that only sitemap file requests are handled.
      */
-    public function PackageRegistered(): void
+    public function packageRegistered(): void
     {
         Route::get('/sitemap.xml', SitemapController::class)
             ->name('sitemap');
