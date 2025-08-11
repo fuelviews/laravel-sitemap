@@ -3,8 +3,6 @@
 namespace Fuelviews\Sitemap;
 
 use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
-use Illuminate\Console\Application as ConsoleApplication;
-use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
