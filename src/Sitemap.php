@@ -2,8 +2,8 @@
 
 namespace Fuelviews\Sitemap;
 
+use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,8 +22,10 @@ class Sitemap
         $disk = Config::get('fv-sitemap.disk', 'public');
         $path = 'sitemap/'.$filename;
 
-        if (! Storage::disk($disk)->exists($path) && ! $this->generateSitemap()) {
-            throw new FileNotFoundException('Sitemap does not exist and could not be generated.');
+        if (! Storage::disk($disk)->exists($path)) {
+            if (! $this->generateSitemap()) {
+                throw new FileNotFoundException('Sitemap does not exist and could not be generated.');
+            }
         }
 
         return Storage::disk($disk)->get($path);
@@ -36,8 +38,15 @@ class Sitemap
      */
     protected function generateSitemap(): bool
     {
-        Artisan::call('sitemap:generate');
+        try {
+            $command = new SitemapGenerateCommand();
+            $command->setLaravel(app());
 
-        return true;
+            $exitCode = $command->handle();
+
+            return $exitCode === 0;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

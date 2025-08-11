@@ -58,12 +58,16 @@ class SitemapGenerateCommand extends Command
                 throw new Exception('Failed to generate pages sitemap');
             }
 
-            $this->info('Sitemap generated successfully.');
+            if ($this->output) {
+                $this->info('Sitemap generated successfully.');
+            }
 
             return CommandAlias::SUCCESS;
         } catch (Exception $exception) {
             Log::error('Sitemap generation failed: '.$exception->getMessage());
-            $this->error('Sitemap generation failed: '.$exception->getMessage());
+            if ($this->output) {
+                $this->error('Sitemap generation failed: '.$exception->getMessage());
+            }
 
             return CommandAlias::FAILURE;
         }
