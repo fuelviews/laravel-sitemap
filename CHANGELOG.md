@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.20 - 2025-08-11
+
+### What's Changed
+
+* Bump orchestra/testbench from 10.3.0 to 10.4.0 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/81
+* Bump laravel/pint from 1.22.1 to 1.24.0 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/84
+* Bump spatie/laravel-package-tools from 1.92.4 to 1.92.7 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/85
+* Bump rector/rector from 2.1.0 to 2.1.2 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/86
+* Refactor sitemap generation to run command directly instead of using Artisan facade, improving error handling and command execution. Rename package to 'sitemap', register sitemap route, and enhance service provider with route and command setup for better integration. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/88
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.19...v0.0.20
+
 ## v0.0.19 - 2025-06-25
 
 ### What's Changed
