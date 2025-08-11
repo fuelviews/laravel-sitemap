@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.21 - 2025-08-11
+
+### What's Changed
+
+* Fix typo by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/89
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.20...v0.0.21
+
 ## v0.0.20 - 2025-08-11
 
 ### What's Changed
