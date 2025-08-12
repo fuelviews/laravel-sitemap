@@ -41,6 +41,21 @@ class SitemapServiceProvider extends PackageServiceProvider
             ->name('sitemap');
     }
 
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->singleton('command.sitemap.generate', function () {
+            return new SitemapGenerateCommand();
+        });
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                'command.sitemap.generate',
+            ]);
+        }
+    }
+
     public function boot(): void
     {
         parent::boot();
