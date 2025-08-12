@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.25 - 2025-08-12
+
+### What's Changed
+
+* Add registration of sitemap generate command to enable console comman… by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/93
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.24...v0.0.25
+
 ## v0.0.24 - 2025-08-12
 
 ### What's Changed
