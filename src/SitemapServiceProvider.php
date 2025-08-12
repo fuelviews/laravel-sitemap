@@ -51,5 +51,4 @@ class SitemapServiceProvider extends PackageServiceProvider
             ]);
         }
     }
-
 }
