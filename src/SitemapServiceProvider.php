@@ -23,9 +23,9 @@ class SitemapServiceProvider extends PackageServiceProvider
             ->name('sitemap')
             ->hasConfigFile('fv-sitemap')
             ->hasRoute('web')
-            ->hasCommand(
+            ->hasCommands([
                 SitemapGenerateCommand::class,
-            );
+            ]);
     }
 
     /**
