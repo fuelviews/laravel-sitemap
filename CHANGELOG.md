@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.22 - 2025-08-12
+
+### What's Changed
+
+* Refactor service provider to register multiple commands using hasCommands method for better scalability. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/90
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.21...v0.0.22
+
 ## v0.0.21 - 2025-08-11
 
 ### What's Changed
