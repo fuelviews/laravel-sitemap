@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v0.0.24 - 2025-08-12
+
+### What's Changed
+
+* Tweak sp by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/92
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v0.0.23...v0.0.24
+
 ## v0.0.22 - 2025-08-12
 
 ### What's Changed

@@ -40,4 +40,15 @@ class SitemapServiceProvider extends PackageServiceProvider
         Route::get('/sitemap.xml', SitemapController::class)
             ->name('sitemap');
     }
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                SitemapGenerateCommand::class,
+            ]);
+        }
+    }
 }
