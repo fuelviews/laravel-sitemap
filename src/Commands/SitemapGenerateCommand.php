@@ -167,7 +167,7 @@ class SitemapGenerateCommand extends Command
 
         $sitemap = Sitemap::create();
 
-        $postModelClasses = Config::get('sitemap.post_model', []);
+        $postModelClasses = Config::get('fv-sitemap.post_model', []);
 
         $postModelClasses = is_array($postModelClasses) ? $postModelClasses : [$postModelClasses];
 

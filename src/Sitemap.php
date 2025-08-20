@@ -2,7 +2,6 @@
 
 namespace Fuelviews\Sitemap;
 
-use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
