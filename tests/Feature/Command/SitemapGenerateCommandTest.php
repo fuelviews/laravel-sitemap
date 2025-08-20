@@ -14,6 +14,6 @@ class SitemapGenerateCommandTest extends TestCase
         Artisan::call('sitemap:generate');
 
         Storage::disk('public')->assertExists('sitemap/sitemap.xml');
-        $this->assertStringContainsString('Sitemap generated successfully.', Artisan::output());
+        $this->assertStringContainsString('Sitemap generation completed successfully!', Artisan::output());
     }
 }

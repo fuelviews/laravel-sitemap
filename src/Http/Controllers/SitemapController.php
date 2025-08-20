@@ -10,7 +10,8 @@ use Illuminate\Routing\Controller as BaseController;
 /**
  * Class SitemapController
  *
- * Controller responsible for handling requests related to sitemaps.
+ * Controller responsible for serving XML sitemap files to search engines and visitors.
+ * Handles requests for sitemap.xml and automatically generates sitemaps if they don't exist.
  */
 class SitemapController extends BaseController
 {
@@ -19,7 +20,7 @@ class SitemapController extends BaseController
     protected string $defaultFilename = 'sitemap.xml';
 
     /**
-     * SitemapController constructor.
+     * Create a new SitemapController instance.
      */
     public function __construct(Sitemap $sitemap)
     {
@@ -27,16 +28,32 @@ class SitemapController extends BaseController
     }
 
     /**
-     * Retrieve the content of the specified sitemap file.
+     * Serve the main sitemap file.
      *
-     * @return Response
-     * @throws FileNotFoundException
+     * Retrieves and serves the sitemap.xml file with proper XML headers.
+     * If the sitemap doesn't exist, it will be automatically generated.
+     *
+     * @return Response XML sitemap content with appropriate headers
+     *
+     * @throws FileNotFoundException If sitemap cannot be found or generated
      */
     public function __invoke(): Response
     {
-        $contents = $this->sitemap->getSitemapContents($this->defaultFilename);
+        try {
+            $contents = $this->sitemap->getSitemapContents($this->defaultFilename);
 
-        return response($contents, 200)
-            ->header('Content-Type', 'application/xml');
+            return response($contents, 200)
+                ->header('Content-Type', 'application/xml; charset=utf-8')
+                ->header('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+        } catch (FileNotFoundException $e) {
+            // Log the error for debugging
+            logger()->error('Sitemap not found', [
+                'filename' => $this->defaultFilename,
+                'error' => $e->getMessage(),
+            ]);
+
+            // Return a 404 response for missing sitemaps
+            abort(404, 'Sitemap not found. Please generate sitemap using: php artisan sitemap:generate');
+        }
     }
 }
