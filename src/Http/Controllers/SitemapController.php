@@ -45,7 +45,7 @@ class SitemapController extends BaseController
             // Check if sitemap needs to be regenerated due to cache expiration
             if ($this->shouldRegenerateSitemap()) {
                 if (! $this->sitemap->generateSitemap()) {
-                    abort(500, 'Failed to generate sitemap. Please check your configuration.');
+                    abort(404, 'Sitemap not found and could not be generated. Please check your configuration.');
                 }
             }
 
