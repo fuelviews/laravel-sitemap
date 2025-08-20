@@ -53,19 +53,16 @@ class Sitemap
     /**
      * Generate sitemap files programmatically.
      *
-     * Creates a new instance of the sitemap generation command and executes it.
+     * Uses Artisan::call to properly execute the command in the correct context.
      * This method provides a way to generate sitemaps programmatically without
      * going through the Artisan console.
      *
      * @return bool True if generation was successful, false otherwise
      */
-    protected function generateSitemap(): bool
+    public function generateSitemap(): bool
     {
         try {
-            $command = app(SitemapGenerateCommand::class);
-            $command->setLaravel(app());
-
-            $exitCode = $command->handle();
+            $exitCode = \Illuminate\Support\Facades\Artisan::call('sitemap:generate');
 
             return $exitCode === 0;
         } catch (\Throwable $e) {
