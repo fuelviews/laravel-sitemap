@@ -74,7 +74,7 @@ class SitemapController extends BaseController
     protected function shouldRegenerateSitemap(): bool
     {
         $disk = Config::get('fv-sitemap.disk', 'public');
-        $path = 'sitemap/' . ltrim($this->defaultFilename, '/');
+        $path = 'sitemap/'.ltrim($this->defaultFilename, '/');
 
         // If file doesn't exist, it should be generated
         if (! Storage::disk($disk)->exists($path)) {
@@ -98,7 +98,7 @@ class SitemapController extends BaseController
     protected function getSitemapFileContents(): string
     {
         $disk = Config::get('fv-sitemap.disk', 'public');
-        $path = 'sitemap/' . ltrim($this->defaultFilename, '/');
+        $path = 'sitemap/'.ltrim($this->defaultFilename, '/');
 
         if (! Storage::disk($disk)->exists($path)) {
             throw new FileNotFoundException("Sitemap file '{$this->defaultFilename}' does not exist.");
