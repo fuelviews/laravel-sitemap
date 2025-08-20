@@ -39,34 +39,57 @@ class SitemapGenerateCommand extends Command
         $this->diskName = $this->getDiskName();
 
         try {
-            $SitemapIndex = ! $this->getExcludeSubcategorySitemapLinks();
+            $useIndex = ! $this->getExcludeSubcategorySitemapLinks();
 
-            if ($SitemapIndex) {
+            $this->info('Starting sitemap generation...');
+
+            if ($useIndex) {
+                $this->line('Generating sitemap index with separate pages and posts sitemaps...');
+
                 if (! $this->generatePagesSitemap()) {
-                    throw new Exception('Failed to generate pages sitemap');
+                    throw new Exception('Failed to generate pages sitemap. Please check your application routes and configuration.');
                 }
 
                 if (! $this->generatePostsSitemap()) {
-                    throw new Exception('Failed to generate posts sitemap');
+                    throw new Exception('Failed to generate posts sitemap. Please check your model configuration.');
                 }
 
                 $sitemapIndex = SitemapIndex::create()
-                    ->add('pages_sitemap.xml')
-                    ->add('posts_sitemap.xml');
+                    ->add('/pages_sitemap.xml')
+                    ->add('/posts_sitemap.xml');
                 $sitemapIndex->writeToDisk($this->diskName, 'sitemap/sitemap.xml', true);
-            } elseif (! $this->generatePagesSitemap('sitemap.xml')) {
-                throw new Exception('Failed to generate pages sitemap');
+
+                $this->info('✓ Generated sitemap index with pages and posts sitemaps');
+            } else {
+                $this->line('Generating single combined sitemap...');
+
+                if (! $this->generatePagesSitemap('sitemap.xml')) {
+                    throw new Exception('Failed to generate combined sitemap. Please check your application routes and configuration.');
+                }
+
+                $this->info('✓ Generated combined sitemap');
             }
 
-            if ($this->output) {
-                $this->info('Sitemap generated successfully.');
-            }
+            $this->info('Sitemap generation completed successfully!');
 
             return CommandAlias::SUCCESS;
         } catch (Exception $exception) {
-            Log::error('Sitemap generation failed: '.$exception->getMessage());
+            $errorMessage = 'Sitemap generation failed: '.$exception->getMessage();
+
+            Log::error($errorMessage, [
+                'exception' => $exception,
+                'disk' => $this->diskName,
+                'use_index' => $useIndex ?? false,
+            ]);
+
             if ($this->output) {
-                $this->error('Sitemap generation failed: '.$exception->getMessage());
+                $this->error($errorMessage);
+                $this->line('');
+                $this->line('Please check:');
+                $this->line('- Your fv-sitemap.php configuration file');
+                $this->line('- That your models implement Sitemapable interface');
+                $this->line('- Your application routes are accessible');
+                $this->line('- Storage disk permissions');
             }
 
             return CommandAlias::FAILURE;
@@ -144,7 +167,7 @@ class SitemapGenerateCommand extends Command
 
         $sitemap = Sitemap::create();
 
-        $postModelClasses = Config::get('sitemap.post_model', []);
+        $postModelClasses = Config::get('fv-sitemap.post_model', []);
 
         $postModelClasses = is_array($postModelClasses) ? $postModelClasses : [$postModelClasses];
 
@@ -251,17 +274,17 @@ class SitemapGenerateCommand extends Command
     /**
      * Get exclude subcategory sitemap links boolean.
      */
-    protected function getExcludeSubcategorySitemapLinks(): string
+    protected function getExcludeSubcategorySitemapLinks(): bool
     {
-        return Config::get('fv-sitemap.exclude_subcategory_sitemap_links', 'true');
+        return Config::get('fv-sitemap.exclude_subcategory_sitemap_links', true);
     }
 
     /**
      * Get excluded redirects boolean.
      */
-    protected function getExcludeRedirects(): string
+    protected function getExcludeRedirects(): bool
     {
-        return Config::get('fv-sitemap.exclude_redirects', 'true');
+        return Config::get('fv-sitemap.exclude_redirects', true);
     }
 
     /**

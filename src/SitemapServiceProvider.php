@@ -3,19 +3,16 @@
 namespace Fuelviews\Sitemap;
 
 use Fuelviews\Sitemap\Commands\SitemapGenerateCommand;
-use Fuelviews\Sitemap\Http\Controllers\SitemapController;
-use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class SitemapServiceProvider extends PackageServiceProvider
 {
     /**
-     * Configures the package within the Laravel application.
+     * Configure the package.
      *
-     * This method sets up the package by specifying its name, registering its configuration file for publishing, and declaring any service providers it publishes.
-     * It also registers console commands provided by the package, enhancing the Artisan CLI with sitemap generation and installation capabilities.
-     * This setup facilitates the integration of the sitemap functionality into a Laravel application, making it configurable and extendable.
+     * Sets up the package configuration, routes, and commands using
+     * spatie/laravel-package-tools for consistent package structure.
      */
     public function configurePackage(Package $package): void
     {
@@ -23,47 +20,18 @@ class SitemapServiceProvider extends PackageServiceProvider
             ->name('sitemap')
             ->hasConfigFile('fv-sitemap')
             ->hasRoute('web')
-            ->hasCommands([
-                SitemapGenerateCommand::class,
-            ]);
+            ->hasCommand(SitemapGenerateCommand::class);
     }
 
     /**
-     * Registers the package's routes.
+     * Register package services.
      *
-     * This method sets up a route that captures requests for XML sitemap files.
-     * It directs these requests to the SitemapController, specifically to the 'index' method, which handles the retrieval and serving of sitemap files.
-     * The route is configured to only match requests ending in '.xml', ensuring that only sitemap file requests are handled.
+     * Binds the main Sitemap class as a singleton in the container.
      */
-    public function packageRegistered(): void
+    public function registeringPackage(): void
     {
-        Route::get('/sitemap.xml', SitemapController::class)
-            ->name('sitemap');
-    }
-
-    public function register(): void
-    {
-        parent::register();
-
-        $this->app->singleton('command.sitemap.generate', function () {
-            return new SitemapGenerateCommand();
+        $this->app->singleton(Sitemap::class, function ($app) {
+            return new Sitemap;
         });
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                'command.sitemap.generate',
-            ]);
-        }
-    }
-
-    public function boot(): void
-    {
-        parent::boot();
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                SitemapGenerateCommand::class,
-            ]);
-        }
     }
 }
