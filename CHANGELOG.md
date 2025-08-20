@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v1.0.1 - 2025-08-20
+
+### What's Changed
+
+* Tweak boost refactor by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/95
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v1.0.0...v1.0.1
+
 ## v1.0.0 - 2025-08-20
 
 ### What's Changed

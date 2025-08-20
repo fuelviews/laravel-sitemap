@@ -13,6 +13,8 @@ Laravel Sitemap is a robust and intelligent solution for automatically generatin
 
 - PHP ^8.3
 - Laravel ^10.0 || ^11.0 || ^12.0
+- Spatie Sitemap ^2.0
+- Spatie Crawler ^7.0
 
 ## Installation
 
