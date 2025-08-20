@@ -5,7 +5,6 @@ namespace Fuelviews\Sitemap\Tests\Feature;
 use Fuelviews\Sitemap\Http\Controllers\SitemapController;
 use Fuelviews\Sitemap\Sitemap;
 use Fuelviews\Sitemap\Tests\TestCase;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Mockery;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
