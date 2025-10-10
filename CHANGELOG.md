@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v1.0.2 - 2025-10-10
+
+### What's Changed
+
+* Bump spatie/laravel-sitemap from 7.3.6 to 7.3.7 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/96
+* Bump rector/rector from 2.1.2 to 2.1.4 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/97
+* Bump orchestra/testbench from 10.4.0 to 10.6.0 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/98
+* Bump anothrNick/github-tag-action from 1.73.0 to 1.75.0 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/100
+* Bump driftingly/rector-laravel from 2.0.5 to 2.0.7 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/102
+* Bump rector/rector from 2.1.4 to 2.1.7 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/103
+* Change sitemap index storage path and update sitemap regeneration logic to only regenerate when the sitemap file is missing, removing time-based cache expiration. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/105
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v1.0.1...v1.0.2
+
 ## v1.0.1 - 2025-08-20
 
 ### What's Changed
