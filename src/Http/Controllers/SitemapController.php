@@ -95,7 +95,7 @@ class SitemapController extends BaseController
     protected function getSitemapFileContents(): string
     {
         $disk = Config::get('fv-sitemap.disk', 'public');
-        $path = 'sitemap/'.ltrim($this->defaultFilename, '/');
+        $path = 'fv-sitemap/'.ltrim($this->defaultFilename, '/');
 
         if (! Storage::disk($disk)->exists($path)) {
             throw new FileNotFoundException("Sitemap file '{$this->defaultFilename}' does not exist.");
