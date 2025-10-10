@@ -57,7 +57,7 @@ class SitemapGenerateCommand extends Command
                 $sitemapIndex = SitemapIndex::create()
                     ->add('/pages_sitemap.xml')
                     ->add('/posts_sitemap.xml');
-                $sitemapIndex->writeToDisk($this->diskName, 'sitemap/sitemap.xml', true);
+                $sitemapIndex->writeToDisk($this->diskName, 'fv-sitemap/sitemap.xml', true);
 
                 $this->info('✓ Generated sitemap index with pages and posts sitemaps');
             } else {
