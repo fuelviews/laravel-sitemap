@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v1.0.3 - 2025-10-10
+
+### What's Changed
+
+* Change sitemap storage directory from 'sitemap' to 'fv-sitemap' to reflect updated folder structure and update related tests accordingly. by @thejmitchener in https://github.com/fuelviews/laravel-sitemap/pull/106
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v1.0.2...v1.0.3
+
 ## v1.0.2 - 2025-10-10
 
 ### What's Changed

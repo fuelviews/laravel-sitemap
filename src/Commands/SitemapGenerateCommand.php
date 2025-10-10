@@ -260,7 +260,7 @@ class SitemapGenerateCommand extends Command
      */
     protected function getFileName(string $filename): string
     {
-        return 'sitemap/'.$filename;
+        return 'fv-sitemap/'.$filename;
     }
 
     /**
