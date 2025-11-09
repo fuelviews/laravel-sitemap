@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v1.0.4 - 2025-11-09
+
+### What's Changed
+
+* Bump rector/rector from 2.1.7 to 2.2.7 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/108
+* Bump spatie/crawler from 8.4.3 to 8.4.5 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/110
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/101
+* Bump laravel/pint from 1.24.0 to 1.25.1 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/104
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v1.0.3...v1.0.4
+
 ## v1.0.3 - 2025-10-10
 
 ### What's Changed
