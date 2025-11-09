@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v1.0.5 - 2025-11-09
+
+### What's Changed
+
+* Bump driftingly/rector-laravel from 2.0.7 to 2.1.2 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/109
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v1.0.4...v1.0.5
+
 ## v1.0.4 - 2025-11-09
 
 ### What's Changed
