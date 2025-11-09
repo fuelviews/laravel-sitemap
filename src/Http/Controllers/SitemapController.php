@@ -33,7 +33,7 @@ class SitemapController extends BaseController
      * Serve the main sitemap file.
      *
      * Retrieves and serves the sitemap.xml file with proper XML headers.
-     * If the sitemap doesn't exist or cache has expired, it will be automatically generated.
+     * If the sitemap doesn't exist, it will be automatically generated.
      *
      * @return Response XML sitemap content with appropriate headers
      *
@@ -42,7 +42,7 @@ class SitemapController extends BaseController
     public function __invoke(): Response
     {
         try {
-            // Check if sitemap needs to be regenerated due to cache expiration
+            // Check if sitemap needs to be regenerated (only if file doesn't exist)
             if ($this->shouldRegenerateSitemap()) {
                 if (! $this->sitemap->generateSitemap()) {
                     abort(404, 'Sitemap not found and could not be generated. Please check your configuration.');
@@ -67,25 +67,22 @@ class SitemapController extends BaseController
     }
 
     /**
-     * Check if the sitemap should be regenerated due to cache expiration.
+     * Check if the sitemap should be regenerated.
+     *
+     * Only returns true if the sitemap file doesn't exist.
+     * No time-based cache expiration - sitemap is only regenerated when:
+     * 1. File doesn't exist (first access or manual deletion)
+     * 2. php artisan sitemap:generate is run manually
      *
      * @return bool True if sitemap should be regenerated, false otherwise
      */
     protected function shouldRegenerateSitemap(): bool
     {
         $disk = Config::get('fv-sitemap.disk', 'public');
-        $path = 'sitemap/'.ltrim($this->defaultFilename, '/');
+        $path = 'fv-sitemap/'.ltrim($this->defaultFilename, '/');
 
         // If file doesn't exist, it should be generated
-        if (! Storage::disk($disk)->exists($path)) {
-            return true;
-        }
-
-        // Check if cache has expired (1 hour TTL)
-        $lastModified = Storage::disk($disk)->lastModified($path);
-        $cacheExpiration = 84600; // 24 hours in seconds
-
-        return (time() - $lastModified) > $cacheExpiration;
+        return ! Storage::disk($disk)->exists($path);
     }
 
     /**
@@ -98,7 +95,7 @@ class SitemapController extends BaseController
     protected function getSitemapFileContents(): string
     {
         $disk = Config::get('fv-sitemap.disk', 'public');
-        $path = 'sitemap/'.ltrim($this->defaultFilename, '/');
+        $path = 'fv-sitemap/'.ltrim($this->defaultFilename, '/');
 
         if (! Storage::disk($disk)->exists($path)) {
             throw new FileNotFoundException("Sitemap file '{$this->defaultFilename}' does not exist.");

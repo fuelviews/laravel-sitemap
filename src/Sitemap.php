@@ -89,6 +89,6 @@ class Sitemap
      */
     protected function buildPath(string $filename): string
     {
-        return 'sitemap/'.ltrim($filename, '/');
+        return 'fv-sitemap/'.ltrim($filename, '/');
     }
 }
