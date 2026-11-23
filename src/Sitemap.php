@@ -33,6 +33,10 @@ class Sitemap
         $path = $this->buildPath($filename);
 
         if (! Storage::disk($disk)->exists($path)) {
+            if (! Config::get('fv-sitemap.generate_on_request', true)) {
+                throw new FileNotFoundException("Sitemap '{$filename}' is not generated yet.");
+            }
+
             if (! $this->generateSitemap()) {
                 throw new FileNotFoundException(
                     "Sitemap '{$filename}' does not exist and could not be generated. ".'Please check your sitemap configuration and ensure all required models exist.'

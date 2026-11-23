@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-sitemap` will be documented in this file.
 
+## v1.0.6 - 2026-11-23
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/118
+* Bump softprops/action-gh-release from 2 to 3 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/121
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.1.0 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/120
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/117
+* Bump poseidon/wait-for-status-checks from 0.6.0 to 0.7.0 by @dependabot[bot] in https://github.com/fuelviews/laravel-sitemap/pull/124
+* fix: never crawl sitemap files; add generate_on_request option by @dannyclarkdev in https://github.com/fuelviews/laravel-sitemap/pull/125
+
+### New Contributors
+
+* @dannyclarkdev made their first contribution in https://github.com/fuelviews/laravel-sitemap/pull/125
+
+**Full Changelog**: https://github.com/fuelviews/laravel-sitemap/compare/v1.0.5...v1.0.6
+
 ## v1.0.5 - 2025-11-09
 
 ### What's Changed

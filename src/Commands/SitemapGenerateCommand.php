@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+use Psr\Http\Message\UriInterface;
 use Spatie\Crawler\Crawler;
 use Spatie\Sitemap\Contracts\Sitemapable;
 use Spatie\Sitemap\Sitemap;
@@ -118,6 +119,9 @@ class SitemapGenerateCommand extends Command
                 ->configureCrawler(function (Crawler $crawler): void {
                     $crawler->ignoreRobots();
                 })
+                // Never fetch sitemap files while crawling: a request for a missing
+                // sitemap can start another generation inside that request.
+                ->shouldCrawl(fn (UriInterface $url): bool => ! self::isSitemapPath($url->getPath()))
                 ->hasCrawled(function (Url $url) use ($excludedRouteNameUrls, $excludedPaths, $excludedUrls): false|\Spatie\Sitemap\Tags\Url {
                     $parsedUrl = parse_url($url->url);
                     $path = $parsedUrl['path'] ?? '';
@@ -309,5 +313,14 @@ class SitemapGenerateCommand extends Command
     protected function getExcludedUrls(): array
     {
         return Config::get('fv-sitemap.exclude_urls', []);
+    }
+
+    /**
+     * True for paths that point to a sitemap file, such as /sitemap.xml,
+     * /pages_sitemap.xml or /blog/sitemap-index.xml (a trailing slash too).
+     */
+    public static function isSitemapPath(string $path): bool
+    {
+        return (bool) preg_match('#(^|/)[^/]*sitemap[^/]*\.xml/?$#i', $path);
     }
 }
