@@ -77,6 +77,9 @@ The main configuration options in `config/fv-sitemap.php`:
 return [
     // Storage disk for sitemap files
     'disk' => env('SITEMAP_DISK', 'public'),
+
+    // Generate a missing sitemap inside the /sitemap.xml request (see below)
+    'generate_on_request' => env('SITEMAP_GENERATE_ON_REQUEST', true),
     
     // Generate sitemap index for large sites
     'exclude_subcategory_sitemap_links' => env('SITEMAP_USE_INDEX', true),
@@ -119,7 +122,20 @@ You can use environment variables for common settings:
 SITEMAP_DISK=public
 SITEMAP_USE_INDEX=true
 SITEMAP_EXCLUDE_REDIRECTS=true
+SITEMAP_GENERATE_ON_REQUEST=true
 ```
+
+### Generating on request vs. on a schedule
+
+By default a request for `/sitemap.xml` generates the sitemap when the file is
+missing. Generation crawls the whole site, so on a large site it can take longer
+than your web server's request timeout. In that case set
+`SITEMAP_GENERATE_ON_REQUEST=false` and run `php artisan sitemap:generate` from
+the scheduler. A missing sitemap then returns `503` with `Retry-After: 300`.
+Without a running scheduler the sitemap is never generated in this mode.
+
+The crawler never requests sitemap URLs (`*sitemap*.xml`), so a link to
+`/sitemap.xml` in your layout does not start a second generation.
 
 ## Advanced Usage
 

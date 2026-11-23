@@ -44,6 +44,10 @@ class SitemapController extends BaseController
         try {
             // Check if sitemap needs to be regenerated (only if file doesn't exist)
             if ($this->shouldRegenerateSitemap()) {
+                if (! Config::get('fv-sitemap.generate_on_request', true)) {
+                    abort(503, 'Sitemap is not generated yet.', ['Retry-After' => '300']);
+                }
+
                 if (! $this->sitemap->generateSitemap()) {
                     abort(404, 'Sitemap not found and could not be generated. Please check your configuration.');
                 }
