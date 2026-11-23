@@ -17,6 +17,17 @@ return [
     'disk' => env('SITEMAP_DISK', 'public'),
 
     /**
+     * Generate On Request
+     *
+     * When true, a request for /sitemap.xml generates the sitemap if the file
+     * is missing. Generation crawls the whole site, so on a large site it can
+     * take longer than the web server allows. Set this to false and run
+     * `php artisan sitemap:generate` from the scheduler instead; a missing
+     * sitemap then returns 503 with a Retry-After header.
+     */
+    'generate_on_request' => env('SITEMAP_GENERATE_ON_REQUEST', true),
+
+    /**
      * Sitemap Index Generation
      *
      * When true, generates separate sitemaps for pages and posts with a sitemap index.
